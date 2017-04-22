@@ -33,7 +33,7 @@ function compareFiles {
         cp -f $2 $1
         git add $1
         run_git_push=true
-        echo "Local $(filename $1) has been updated!"
+        echo "Local $(basename $1) has been updated!"
     fi
 }
 
