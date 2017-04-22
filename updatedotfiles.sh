@@ -37,7 +37,7 @@ function compareFiles {
     fi
 }
 
-VIM_LOCAL="$HOME/.dotfiles/.vimrc"
+VIM_LOCAL="$HOME/.dotfiles/.init.vim"
 VIM_EXTERNAL="$HOME/.config/nvim/init.vim"
 compareFiles $VIM_LOCAL $VIM_EXTERNAL
 
