@@ -1,2 +1,2 @@
-# dotfiles
-My dotfiles
+# Dotfiles
+This repo contain my dotfiles.
