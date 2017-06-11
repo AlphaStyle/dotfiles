@@ -42,26 +42,26 @@ Plug 'majutsushi/tagbar' " Tagbar support
 Plug 'neomake/neomake'
 
 "" Snippets
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'Shougo/neosnippet', {'for': ['html', 'js', 'javascript', 'css']}
+Plug 'Shougo/neosnippet-snippets', {'for': ['html', 'js', 'javascript', 'css']}
+Plug 'SirVer/ultisnips', {'for': ['html', 'js', 'javascript', 'css']}
+Plug 'honza/vim-snippets', {'for': ['html', 'js', 'javascript', 'css']}
 
 "" Vue Syntax
 Plug 'posva/vim-vue', {'for': ['vue']}
 
 "" Color
-Plug 'tomasr/molokai'
-Plug 'jacoborus/tender.vim'
-Plug 'chriskempson/vim-tomorrow-theme'
+" Plug 'tomasr/molokai'
+" Plug 'jacoborus/tender.vim'
+" Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'trevordmiller/nova-vim'
 
 "" Tmux lightline
-Plug 'edkolev/tmuxline.vim'
+" Plug 'edkolev/tmuxline.vim'
 
 "" Mardown
 Plug 'vim-pandoc/vim-pandoc', {'for': ['md', 'markdown']}
-Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc-syntax', {'for': ['md', 'markdown']}
 
 "" Editorconfig
 Plug 'editorconfig/editorconfig-vim'
@@ -73,37 +73,39 @@ Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 Plug 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 
 "" html
-Plug 'vim-scripts/HTML-AutoCloseTag'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque'
-Plug 'tpope/vim-haml'
-Plug 'mattn/emmet-vim'
+Plug 'vim-scripts/HTML-AutoCloseTag', {'for': ['html']}
+" Plug 'gorodinskiy/vim-coloresque'
+" Plug 'tpope/vim-haml'
+Plug 'mattn/emmet-vim', {'for': ['html']}
 
 "" CSS
-Plug 'hail2u/vim-css3-syntax'
+Plug 'hail2u/vim-css3-syntax', {'for': ['css']}
 Plug 'ap/vim-css-color'
 
 "" Typescript
 Plug 'leafgarland/typescript-vim', {'for': ['ts', 'typescript']}
 
 "" javascript
-Plug 'pangloss/vim-javascript'
-Plug 'jelera/vim-javascript-syntax'
+Plug 'pangloss/vim-javascript', {'for': ['js', 'javascript']}
+Plug 'jelera/vim-javascript-syntax', {'for': ['js', 'javascript']}
 " Plug 'mhartington/nvim-typescript' " Using typescript-vim instead
 
 "" JSX
-Plug 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx', {'for': ['jsx']}
 
 "" JSON
-Plug 'elzr/vim-json'
+Plug 'elzr/vim-json', {'for': ['jsx', 'js', 'javascript', 'json']}
 
 "" Python
-Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim', {'for': ['py', 'python']}
 
 "*****************************************************************************
 "" Autocompletion
 "*****************************************************************************
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+"" Use Local Eslint
+Plug 'benjie/neomake-local-eslint.vim'
 
 "" Go
 Plug 'zchee/deoplete-go', { 'do': 'make', 'for': ['go', 'golang']}
@@ -243,6 +245,12 @@ augroup vimrc-sync-fromstart
     autocmd BufEnter * :syntax sync fromstart
 augroup END
 
+
+augroup vue-file-options
+    autocmd!
+    autocmd BufRead,BufNewFile *.vue setlocal filetype=vue
+augroup END
+
 "" Remember cursor position
 augroup vimrc-remember-cursor-position
     autocmd!
@@ -264,11 +272,17 @@ augroup vimrc-python
 augroup END
 
 "" Auto format javascript with standard
-autocmd BufWritePost *.js silent !standard --fix %
+augroup standard-auto-format
+    autocmd!
+    autocmd BufWritePost *.js silent !standard --fix %
+augroup END
 set autoread
 
 "" Use Neomake on every Write
-autocmd! BufWritePost * Neomake
+augroup neomake-linting
+    autocmd!
+    autocmd BufWritePost * Neomake
+augroup END
 "" Show info if needed
 let g:neomake_open_list = 2
 
@@ -290,7 +304,15 @@ augroup FileType go
 augroup END
 
 "" For HTML files, 2 spaces
-autocmd Filetype html setlocal ts=2 sw=2 expandtab
+augroup html-file-option
+    autocmd!
+    autocmd Filetype html setlocal ts=2 sw=2 expandtab
+augroup END
+
+augroup vue-file-option-tabs
+    autocmd!
+    autocmd Filetype vue setlocal ts=2 sw=2 expandtab
+augroup END
 
 "*****************************************************************************
 "" Mappings
@@ -485,8 +507,8 @@ let g:go_list_type = "quickfix"
 let g:javascript_enable_domhtmlcss = 1
 
 "" Javascript Makers (NeoMake)
-let g:neomake_javascript_enabled_makers = ['eslint', 'standard']
-let g:neomake_jsx_enabled_makers = ['eslint', 'standard']
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_jsx_enabled_makers = ['eslint', 'standard']
 
 "" JSX
 let g:jsx_ext_required = 1
@@ -648,3 +670,4 @@ let g:tmuxline_separators = {
     \ 'right' : '',
     \ 'right_alt' : '|',
     \ 'space' : ' '}
+

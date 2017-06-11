@@ -31,7 +31,8 @@ source $ZSH/oh-my-zsh.sh
 # Exporting
 #----------------------------
 # export TERM=xterm-256color
-export TERM=st-256color # Add True colors to tmux
+export TERM=xterm-termite
+# export TERM=st-256color # Add True colors to tmux
 
 export GOPATH=~/projects
 export GOROOT=/usr/lib/go
