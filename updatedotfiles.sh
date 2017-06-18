@@ -37,7 +37,7 @@ function compareFiles {
     fi
 }
 
-VIM_LOCAL="$HOME/.dotfiles/.init.vim"
+VIM_LOCAL="$HOME/.dotfiles/nvim/init.vim"
 VIM_EXTERNAL="$HOME/.config/nvim/init.vim"
 compareFiles $VIM_LOCAL $VIM_EXTERNAL
 
@@ -54,6 +54,7 @@ TERMITE_EXTERNAL="$HOME/.config/termite/config"
 compareFiles $TERMITE_LOCAL $TERMITE_EXTERNAL
 
 if [ run_git_push ]; then
+    git add --all
     git commit -m "Updated: $(date +%F)"
     git push
 fi
