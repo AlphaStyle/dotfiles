@@ -54,7 +54,6 @@ TERMITE_EXTERNAL="$HOME/.config/termite/config"
 compareFiles $TERMITE_LOCAL $TERMITE_EXTERNAL
 
 if [ run_git_push ]; then
-    git add --all
     git commit -m "Updated: $(date +%F)"
     git push
 fi
