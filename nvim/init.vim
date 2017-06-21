@@ -13,18 +13,20 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-"" File tree
+"" File tree with git status highlight
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'xuyuanp/nerdtree-git-plugin'
+Plug 'xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight', {'on': 'NERDTreeToggle'}
 
 "" Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-rhubarb'
 
-"" Statusline
+"" Status line
 Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
 
 "" General stuff
 Plug 'sheerun/vim-polyglot' " Syntax
@@ -32,10 +34,17 @@ Plug 'bronson/vim-trailing-whitespace' " Show and remove whitespace
 Plug 'Raimondi/delimitMate' " Auto close {[
 Plug 'Yggdroot/indentLine' " Show Indent lines
 
+"" Easy commenting
+Plug 'tpope/vim-commentary' " Comment stuff out
+
+"" Surrounding
+Plug 'tpope/vim-surround'
+
 "" Misc
 Plug 'terryma/vim-multiple-cursors' " Edit with multiple cursors
 Plug 'ervandew/supertab' " Tab AutoComplete etc with Tab button
 Plug 'majutsushi/tagbar' " Tagbar support
+Plug 'rhysd/clever-f.vim' " Improve f,F t,T
 " Plug 'scrooloose/syntastic' "Using NeoMake instead
 
 "" Linting
@@ -48,12 +57,16 @@ Plug 'SirVer/ultisnips', {'for': ['html', 'js', 'javascript', 'css']}
 Plug 'honza/vim-snippets', {'for': ['html', 'js', 'javascript', 'css']}
 
 "" Vue Syntax
-" Plug 'posva/vim-vue', {'for': ['vue']}
+Plug 'posva/vim-vue', {'for': ['vue']}
 
 "" Color
 " Plug 'tomasr/molokai'
 " Plug 'jacoborus/tender.vim'
 " Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'rakr/vim-one'
+
 Plug 'trevordmiller/nova-vim'
 
 "" Tmux lightline
@@ -76,11 +89,12 @@ Plug 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 Plug 'vim-scripts/HTML-AutoCloseTag', {'for': ['html']}
 " Plug 'gorodinskiy/vim-coloresque'
 " Plug 'tpope/vim-haml'
+" Plug 'othree/html5.vim', {'for': ['html']}
 Plug 'mattn/emmet-vim', {'for': ['html']}
 
 "" CSS
 " Plug 'hail2u/vim-css3-syntax', {'for': ['css']}
-Plug 'ap/vim-css-color'
+Plug 'ap/vim-css-color', {'for': ['css']}
 
 "" Typescript
 " Plug 'leafgarland/typescript-vim', {'for': ['ts', 'typescript']}
@@ -115,8 +129,9 @@ Plug 'zchee/deoplete-jedi', {'for': ['py', 'python']}
 
 "" Javascript
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'carlitux/deoplete-ternjs', {'for': ['js', 'jsx', 'javascript']}
-"*****************************************************************************
+Plug 'carlitux/deoplete-ternjs', {'for': ['js', 'jsx', 'javascript']} " Normal Projects
+Plug 'steelsojka/deoplete-flow', {'for': ['js', 'jsx', 'javascript']} " Flow
+Plug 'mhartington/nvim-typescript', {'for': ['ts', 'typescript']} " Typescript
 
 "" File Icons (should load last, works bettet this way)
 Plug 'ryanoasis/vim-devicons'
@@ -137,6 +152,9 @@ set fileencodings=utf-8
 set bomb
 set binary
 
+" Spell check
+set spell spelllang=en_us
+
 "" Fix backspace indent
 set backspace=indent,eol,start
 
@@ -155,12 +173,20 @@ set hidden
 "" Searching
 set hlsearch
 set incsearch
-set ignorecase
+" set ignorecase
 set smartcase
+set infercase
+
+"" auto completion when setting a setting :set auto<<TAB>>
+set wildmenu
+set wildmode=full
 
 "" Directories for swp files
 set nobackup
 set noswapfile
+
+"" Limit syntax highlight for only the first 200 lines of code
+set synmaxcol=200
 
 set fileformats=unix,dos,mac
 set showcmd
@@ -174,28 +200,35 @@ set ruler
 set number
 set relativenumber
 
-let no_buffers_menu=1
-if !exists('g:not_finish_vimplug')
-    " colorscheme molokai
-    " colorscheme tender
-    colorscheme nova
-    " colorscheme Tomorrow-Night
+if !has('gui_running')
+  set t_Co=256
 endif
+
+let no_buffers_menu=1
+" colorscheme molokai
+" colorscheme tender
+" colorscheme nova
+" colorscheme one
+" colorscheme onedark
+colorscheme neodark
+let g:neodark#terminal_transparent = 1
+let g:neodark#use_256color = 1
+let g:neodark#solid_vertsplit = 1
+let g:neodark#use_custom_terminal_theme = 1
+" colorscheme Tomorrow-Night
 
 set mousemodel=popup
-set t_Co=256
-set guioptions=egmrti
-set gfn=Monospace\ 10
 
-if has("gui_running")
-    let g:CSApprox_loaded = 1
+let g:CSApprox_loaded = 1
 
-    " IndentLine
-    let g:indentLine_enabled = 1
-    let g:indentLine_concealcursor = 0
-    let g:indentLine_char = '┆'
-    let g:indentLine_faster = 1
-endif
+" IndentLine
+let g:indentLine_enabled = 1
+let g:indentLine_concealcursor = 0
+let g:indentLine_char = '┆'
+let g:indentLine_faster = 1
+let g:indentLine_setColors = 0
+let g:indentLine_faster = 1
+let g:indentLine_setConceal = 0
 
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
@@ -245,11 +278,10 @@ augroup vimrc-sync-fromstart
     autocmd BufEnter * :syntax sync fromstart
 augroup END
 
-
-augroup vue-file-options
-    autocmd!
-    autocmd BufRead,BufNewFile *.vue setlocal filetype=vue
-augroup END
+"augroup vue-file-options
+"   autocmd!
+"   autocmd BufRead,BufNewFile *.vue setlocal filetype=vue
+"augroup END
 
 "" Remember cursor position
 augroup vimrc-remember-cursor-position
@@ -311,7 +343,7 @@ augroup END
 
 augroup vue-file-option-tabs
     autocmd!
-    autocmd Filetype vue setlocal ts=2 sw=2 expandtab
+    autocmd Filetype vue setlocal ts=2 sw=2 expandtab noshowcmd lazyredraw
 augroup END
 
 "*****************************************************************************
@@ -451,11 +483,12 @@ let g:tern#arguments = ["--persistent"]
 let g:tern_request_timeout = 1
 let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
 
-"" Add extra filetypes to ternjs for javascript
+"" Add extra file types to ternjs for javascript
 let g:tern#filetypes = [
     \ 'jsx',
     \ 'javascript.jsx',
     \ 'javascript',
+    \ 'js',
     \ 'vue'
     \ ]
 
@@ -474,9 +507,7 @@ if has('autocmd')
 endif
 
 "" Copy/Paste/Cut
-if has('unnamedplus')
-    set clipboard=unnamed,unnamedplus
-endif
+set clipboard^=unnamed,unnamedplus
 
 "" GoLang
 let g:tagbar_type_go = {
@@ -526,16 +557,24 @@ let g:jedi#show_call_signatures = "0"
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#smart_auto_mappings = 0
 
+"" Disable Polyglot syntax for x
+let g:polyglot_disabled = ['go']
+
+"" Clever-f
+let g:clever_f_across_no_line = 1
+let g:clever_f_timeout_ms = 3000
+
 "" Syntastic
 " let g:syntastic_python_checkers=['pylint', 'python', 'flake8']
 
 "*******************************************************************************************
 "" Lightline
 "*******************************************************************************************
+set noshowmode
 let g:lightline = {
-    \ 'colorscheme': 'PaperColor',
+    \ 'colorscheme': 'neodark',
     \   'active': {
-    \       'left': [ ['mode', 'paste'], ['fugitive', 'filename'], ['neomake', 'gitgutter'] ],
+    \       'left': [ ['mode', 'paste'], ['gitgutter', 'fugitive', 'filename'], ['neomake'] ],
     \       'right': [ ['percent', 'lineinfo'], ['fileformat', 'fileencoding', 'filetype'] ]
     \   },
     \   'component_function': {
@@ -545,15 +584,9 @@ let g:lightline = {
     \       'filename': 'LightlineFilename',
     \       'fileformat': 'LightlineFileformat',
     \       'filetype': 'LightlineFiletype',
-    \       'fileencoding': 'LightlineFileencoding'
-    \   },
-    \   'component_expand': {
-    \       'gitgutter': 'LightlineGitGutter',
-    \       'neomake':  'LightlineNeomake'
-    \   },
-    \   'component_type': {
-    \       'gitgutter': 'warning',
-    \       'neomake': 'warning'
+    \       'fileencoding': 'LightlineFileencoding',
+    \       'neomake':  'LightlineNeomake',
+    \       'gitgutter': 'LightlineGitGutter'
     \   }
     \}
 
@@ -564,14 +597,14 @@ endfunction
 
 "" Will show whether it is read only or not
 function! LightlineReadonly()
-    return winwidth(0) > 70 ? (&ft !~? 'help' && &readonly ? '⭤' : '') : ''
+    return winwidth(0) > 70 ? (&ft !~? 'help' && &readonly ? '' : '') : ''
 endfunction
 
 "" Will Show Git Status
 function! LightlineFugitive()
-    if exists("*fugitive#head") && winwidth(0) > 70
-        let branch = fugitive#head()
-    return branch !=# '' ? '⭠ '.branch : ''
+    if exists("*gitbranch#name")
+        let branch = gitbranch#name()
+        return branch !=# '' ? ' '.branch : ''
     endif
     return ''
 endfunction
@@ -598,7 +631,7 @@ function! LightlineFileencoding()
     return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
 endfunction
 
-"" Will Show whether there are any linting erros (NeoMake)
+"" Will Show whether there are any linting errors (NeoMake)
 function! LightlineNeomake()
     if !exists('*neomake#statusline#LoclistCounts')
         return ''
@@ -620,7 +653,7 @@ function! LightlineNeomake()
     endif
 
     if winwidth(0) > 70
-        return 'Errors: ' . total
+        return 'NeoMake: '.total
     else
         return ''
     endif
@@ -629,29 +662,11 @@ endfunction
 "" Will Show if there has been any changes compared with git
 function! LightlineGitGutter()
     if winwidth(0) > 70
-        if ! exists('*GitGutterGetHunkSummary')
-            \ || ! get(g:, 'gitgutter_enabled', 0)
-            \ || winwidth('.') <= 90
-            return ''
+        if exists('*GitGutterGetHunkSummary')
+            let [ added, modified, removed ] = GitGutterGetHunkSummary()
+            return printf('+%d ~%d -%d', added, modified, removed)
         endif
-
-        let symbols = [
-            \ g:gitgutter_sign_added . ' ',
-            \ g:gitgutter_sign_modified . ' ',
-            \ g:gitgutter_sign_removed . ' '
-            \ ]
-
-        let hunks = GitGutterGetHunkSummary()
-        let ret = []
-        for i in [0, 1, 2]
-            if hunks[i] > 0
-                call add(ret, symbols[i] . hunks[i])
-            endif
-        endfor
-
-        if len(ret[0]) > 0
-            return 'gitgutter: ' . join(ret, ' ')
-        endif
+        return ''
     endif
     return ''
 endfunction
