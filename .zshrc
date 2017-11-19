@@ -5,6 +5,7 @@ export ZSH=/home/alphastyle/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
+# ZSH_THEME="cloudy"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -21,11 +22,25 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(zsh-completions zsh-syntax-highlighting sudo docker python archlinux compleat pip node npm systemd zsh-autosuggestions zsh-better-npm-completion)
+plugins=(zsh-completions zsh-syntax-highlighting compleat zsh-autosuggestions zsh-better-npm-completion alias-tips notify)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+# Vi mode
+bindkey -v
+# Show normal-mode when click <ESC>
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+    zle reset-prompt
+}
+# Run zle-line-init and zle-keymap-select on startup
+zle -N zle-line-init
+zle -N zle-keymap-select
+# Reduce <ESC> delay
+export KEYTIMEOUT=1
 
 #-----------------------------
 # Exporting
@@ -36,10 +51,20 @@ export TERM=xterm-termite
 
 export GOPATH=~/projects
 export GOROOT=/usr/lib/go
+export RubyBin=$(ruby -e 'print Gem.user_dir')/bin
 
-export PATH=${PATH}:$GOPATH:$GOROOT:$GOPATH/bin
+export PATH=${PATH}:$GOPATH:$GOROOT:$GOPATH/bin:$RubyBin
 
 export EDITOR='nvim'
+
+export PAGER="most"
+
+# --files: List files that would be searched but do not search
+# --no-ignore: Do not respect .gitignore, etc...
+# --hidden: Search hidden files and folders
+# --follow: Follow symlinks
+# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -57,10 +82,13 @@ export EDITOR='nvim'
 #
 # Example aliases
 # alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias vim="nvim"
 alias zshconfig="nvim ~/.zshrc"
 alias tmuxconfig="nvim ~/.tmux.conf"
-alias vim="nvim"
 alias vimconfig="nvim ~/.config/nvim/init.vim"
+# ls with colors and icons!
+alias lc='colorls -r'
+alias tldr='tldr -t base16'
 #------------------------------
 # Comp stuff
 #------------------------------
@@ -69,3 +97,5 @@ fpath=(~/.zsh/completion $fpath)
 zmodload zsh/complist
 autoload -Uz compinit && compinit -i
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
