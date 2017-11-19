@@ -52,6 +52,10 @@
 - **leader+w** - :bn (buffer next)
 - **leader+C** - :bd (buffer delete)
 ---
+#### New files based on the path you're working in
+- **leader+e** - Create new file in path/direcotry based on the file your in right now
+- **leader+te** - Same as `leader+e` just in a tab
+---
 #### Set Working directory (easy navigation with NERDTree)
 - **leader+.** - :lcd %:p:h (set current directory as working directory)
 ---
