@@ -69,8 +69,11 @@
 
 
 *Use `v` to enter normal-mode from visual-mode.*
+
 *Use `c` or `s` to switch to inser-mode from visual-mode.*
+
 *Use `i, a, I, A` in normal-mode.*
+
 *Use `Esc` to exit.*
 
 ---
@@ -88,6 +91,7 @@
 
 *Use `i`, `x`, `t` in a Far buffer to `include`, `exclude`. `toggle
 include/exclude`.*
+
 *Use `%` as file-mask to search current buffer.*
 
 ---
