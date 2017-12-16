@@ -79,6 +79,13 @@ Use `Esc` to exit.*
 - **cs***xy* - x = from, y = to (change the surroundings)
 - **ds***x* - x = what to remove (remove the surroundings)
 ---
+#### Far (Find and Replace)
+- **:Far {pattern} {replace-pattern} {file-mask} [params]** - find -> replace.
+*Use `i`, `x`, `t` in a Far buffer to `include`, `exclude`. `toggle
+include/exclude`.
+Use `%` as file-mask to search current buffer.*
+
+---
 #### Tagbar
 - **F4** - :TagbarToggle (Toggle Tagbar on and off)
 ---
