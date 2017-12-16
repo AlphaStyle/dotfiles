@@ -26,6 +26,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rhubarb' " Github
 Plug 'tpope/vim-git' " Git Syntax
 " }}}
+" Far (Find and Replace) {{{
+Plug 'brooth/far.vim'
+" }}}
 " Tabular (aligning stuff) {{{
 Plug 'godlygeek/tabular'
 " }}}
@@ -557,6 +560,7 @@ let g:tagbar_type_go = {
             \ 'ctagsbin'  : 'gotags',
             \ 'ctagsargs' : '-sort -silent'
             \ }
+set autowrite
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
