@@ -113,8 +113,11 @@ include/exclude`.*
 #### Clever-f
 - **F***x* or **f***x* - Search and find *x*
 - **T***x* or **t***x* - Search and move to *x*
-*Will highlight x and then click `F, f, T, t` to move to the x you want, then
+
+
+*Will highlight x and then click `F`, `f`, `T`, `t` to move to the x you want, then
 `a` or `i` to enter inser-mode*
+
 ---
 #### Emmet
 - **Ctrl+y** - Trigger Emmet
