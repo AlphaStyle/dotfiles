@@ -26,16 +26,19 @@ plugins=(zsh-completions zsh-syntax-highlighting compleat zsh-autosuggestions zs
 
 source $ZSH/oh-my-zsh.sh
 
+#-----------------------------
 # User configuration
-
+#-----------------------------
 # Vi mode
 bindkey -v
+
 # Show normal-mode when click <ESC>
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
     RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
     zle reset-prompt
 }
+
 # Run zle-line-init and zle-keymap-select on startup
 zle -N zle-line-init
 zle -N zle-keymap-select
@@ -49,15 +52,16 @@ export KEYTIMEOUT=1
 export TERM=xterm-termite
 # export TERM=st-256color # Add True colors to tmux
 
+# Golang
 export GOPATH=~/projects
 export GOROOT=/usr/lib/go
+# Ruby
 export RubyBin=$(ruby -e 'print Gem.user_dir')/bin
 
-export PATH=${PATH}:$GOPATH:$GOROOT:$GOPATH/bin:$RubyBin
-
 export EDITOR='nvim'
-
 export PAGER="most"
+
+export PATH=${PATH}:$GOPATH:$GOROOT:$GOPATH/bin:$RubyBin
 
 # --files: List files that would be searched but do not search
 # --no-ignore: Do not respect .gitignore, etc...
@@ -75,20 +79,27 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+#-----------------------------
+# Aliases
+#----------------------------
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
 # alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias vim="nvim"
 alias zshconfig="nvim ~/.zshrc"
 alias tmuxconfig="nvim ~/.tmux.conf"
 alias vimconfig="nvim ~/.config/nvim/init.vim"
+
+alias tls="tmux ls"
+alias tns="tmux new-session -s"
+alias tat="tmux attach -t"
+alias tkill="tmux kill-session -t"
 # ls with colors and icons!
-alias lc='colorls -r'
-alias tldr='tldr -t base16'
+# alias lc='colorls -r'
+# alias tldr='tldr -t base16'
+
 #------------------------------
 # Comp stuff
 #------------------------------
@@ -96,6 +107,5 @@ fpath=(~/.zsh/completion $fpath)
 
 zmodload zsh/complist
 autoload -Uz compinit && compinit -i
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

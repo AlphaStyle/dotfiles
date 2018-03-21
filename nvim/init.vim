@@ -86,6 +86,7 @@ Plug 'fatih/vim-go', {'do': ':GoInstallBinaries', 'for': ['go']}
 " }}}
 " Color Theme {{{
 Plug 'KeitaNakamura/neodark.vim'
+" Plug 'joshdick/onedark.vim'
 " Plug 'tomasr/molokai'
 " Plug 'trevordmiller/nova-vim' " old scheme
 " }}}
@@ -256,6 +257,7 @@ set synmaxcol=200 " Limit syntax highlight for only the first 200 lines of code
 " colorscheme molokai
 " colorscheme nova
 colorscheme neodark
+" colorscheme onedark
 let g:neodark#terminal_transparent = 1
 let g:neodark#use_256color = 1
 let g:neodark#solid_vertsplit = 1
@@ -286,6 +288,9 @@ set modelines=10
 set title
 set titleold="Terminal"
 set titlestring=%F
+" }}}
+" Disable visualbell {{{
+set noerrorbells visualbell t_vb=
 " }}}
 " }}}
 " Abbreviations {{{
@@ -536,9 +541,6 @@ let g:deoplete#omni#functions.javascript = [
             \ 'tern#Complete',
             \ 'jspc#omni'
             \ ]
-" }}}
-" Disable visualbell {{{
-set noerrorbells visualbell t_vb=
 " }}}
 " Copy/Paste/Cut Clipboard {{{
 set clipboard^=unnamed,unnamedplus
