@@ -53,6 +53,10 @@ TERMITE_LOCAL="$HOME/.dotfiles/termite/config"
 TERMITE_EXTERNAL="$HOME/.config/termite/config"
 compareFiles $TERMITE_LOCAL $TERMITE_EXTERNAL
 
+ALACRITTY_LOCAL="$HOME/.dotfiles/alacritty/alacritty.yml"
+ALACRITTY_EXTERNAL="$HOME/.config/alacritty/alacritty.yml"
+compareFiles $ALACRITTY_LOCAL $ALACRITTY_EXTERNAL
+
 if [ run_git_push ]; then
     git commit -m "Updated: $(date +%F)"
     git push
