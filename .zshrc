@@ -49,7 +49,9 @@ export KEYTIMEOUT=1
 # Exporting
 #----------------------------
 # export TERM=xterm-256color
-export TERM=xterm-termite
+export TERM=tmux-256color
+# export TERM=screen-256color
+# export TERM=xterm-termite
 # export TERM=st-256color # Add True colors to tmux
 
 # Golang

@@ -12,10 +12,10 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "" Plug install packages
 "*****************************************************************************
 " File tree with git status highlight {{{
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight', {'on': 'NERDTreeToggle'}
+" Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+" Plug 'xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
+" Plug 'jistr/vim-nerdtree-tabs'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight', {'on': 'NERDTreeToggle'}
 " }}}
 " VimWiki {{{
 "" Plug 'vimwiki/vimwiki'
@@ -52,7 +52,7 @@ Plug 'tpope/vim-commentary' " Comment stuff out
 Plug 'tpope/vim-surround'
 " }}}
 " Grundo (Undo interface) {{{
-Plug 'sjl/gundo.vim'
+" Plug 'sjl/gundo.vim'
 " }}}
 " Ack Search with AG {{{
 Plug 'mileszs/ack.vim'
@@ -65,7 +65,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'terryma/vim-multiple-cursors' " Edit with multiple cursors
 Plug 'ervandew/supertab' " Tab AutoComplete etc with Tab button
 Plug 'majutsushi/tagbar' " Tagbar support
-Plug 'rhysd/clever-f.vim' " Improve f,F t,T
+" Plug 'rhysd/clever-f.vim' " Improve f,F t,T
 " }}}
 " Linting {{{
 Plug 'neomake/neomake'
@@ -86,7 +86,7 @@ Plug 'fatih/vim-go', {'do': ':GoInstallBinaries', 'for': ['go']}
 " }}}
 " Color Theme {{{
 Plug 'KeitaNakamura/neodark.vim'
-" Plug 'joshdick/onedark.vim'
+Plug 'joshdick/onedark.vim'
 " Plug 'tomasr/molokai'
 " Plug 'trevordmiller/nova-vim' " old scheme
 " }}}
@@ -166,7 +166,7 @@ Plug 'mhartington/nvim-typescript', {'for': ['ts', 'typescript']} " Typescript
 " }}}
 " }}}
 " File Icons (should load last, works better this way) {{{
-Plug 'ryanoasis/vim-devicons'
+ Plug 'ryanoasis/vim-devicons'
 " }}}
 call plug#end()
 filetype plugin indent on
@@ -250,19 +250,26 @@ set relativenumber
 " }}}
 " Highlight matching word and line {{{
 set showmatch " Highlight matching [{()}]
-set cursorline " Highligh the line the cursor is on
+set nocursorline " (TurnOff) Highligh the line the cursor is on
+set nocursorcolumn " (TurnOff)
 set synmaxcol=200 " Limit syntax highlight for only the first 200 lines of code
 " }}}
 " Color Theme {{{
 " colorscheme molokai
 " colorscheme nova
-colorscheme neodark
-" colorscheme onedark
+" colorscheme neodark
+colorscheme onedark
 let g:neodark#terminal_transparent = 1
 let g:neodark#use_256color = 1
 let g:neodark#solid_vertsplit = 1
-let g:neodark#use_custom_terminal_theme = 1
-let g:CSApprox_loaded = 1
+" let g:neodark#use_custom_terminal_theme = 1
+if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+if (has("termguicolors"))
+    set termguicolors
+    set background=dark
+endif
 " }}}
 " IndentLine {{{
 let g:indentLine_enabled = 1
@@ -278,7 +285,7 @@ set scrolloff=3
 " }}}
 " Status bar {{{
 set laststatus=2
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+" set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 " }}}
 " Use modeline overrides {{{
 set modeline
@@ -364,16 +371,17 @@ augroup FileType go
 augroup END
 " }}}
 " For HTML files, 2 spaces {{{
-augroup html-file-option
-    autocmd!
-    autocmd Filetype html setlocal ts=2 sw=2 expandtab
-augroup END
+" augroup html-file-option
+"     autocmd!
+"     autocmd Filetype html setlocal ts=2 sw=2 expandtab
+" augroup END
 " }}}
 " Vue files {{{
 augroup vue-file-option-tabs
     autocmd!
-    autocmd Filetype vue setlocal ts=2 sw=2 expandtab noshowcmd lazyredraw
-    autocmd FileType vue syntax sync fromstart
+"     autocmd Filetype vue setlocal ts=2 sw=2 expandtab noshowcmd lazyredraw
+"     autocmd FileType vue syntax sync fromstart
+    autocmd FileType vue setlocal relativenumber!
 augroup END
 " }}}
 "}}}
@@ -565,11 +573,18 @@ let g:tagbar_type_go = {
 set autowrite
 
 let g:go_highlight_functions = 1
+let g:go_highlight_functions_arguments = 1
+let g:go_highlight_functions_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
+let g:go_highlight_tags = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_format_strings = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
 "" Automatically imports/remove packages
 let g:go_fmt_command = "goimports"
 let g:go_list_type = "quickfix"
@@ -632,7 +647,7 @@ command! -bang -nargs=* Find
 "*******************************************************************************************
 set noshowmode
 let g:lightline = {
-            \ 'colorscheme': 'neodark',
+            \ 'colorscheme': 'onedark',
             \   'active': {
             \       'left': [ ['mode', 'paste'], ['gitgutter', 'fugitive', 'filename'], ['neomake'] ],
             \       'right': [ ['percent', 'lineinfo'], ['fileformat', 'fileencoding', 'filetype'] ]
