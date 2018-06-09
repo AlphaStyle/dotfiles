@@ -1,0 +1,12 @@
+#! /bin/sh
+cpuload() {
+    # LINE=`ps -eo pcpu | grep -vE '^\s*(0.0|%CPU)' | sed -n '1h;$!H;$g;s/\n/ +/gp'`
+    # read bc <<< $LINE
+    # echo $bc
+    echo `cat /proc/loadavg | awk '{print $1}'`
+}
+
+while :; do
+    echo -e "P\uf2db $(cpuload)"
+    sleep 5
+done

@@ -1,0 +1,20 @@
+#! /bin/sh
+volume() {
+    icon=""
+    vol=`amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p'| uniq`
+
+    if [ $vol -ge 50 ]; then
+        icon="\uf028" # Full Volume Icon
+    elif [ $vol -lt 50 ] && [ $vol -ne 0 ]; then
+        icon="\uf027" # Halv Volume Icon
+    else
+        icon="\uf026" # 0 and muted
+    fi
+
+    echo -e "${icon} ${vol}"
+}
+
+while :; do
+    echo -e "V$(volume)"
+    sleep 1
+done

@@ -1,0 +1,9 @@
+#! /bin/sh
+memused() {
+    free -m | awk 'NR==2{printf "%.2f", $3*100/$2}'
+}
+
+while :; do
+    echo -e "M\uf2db $(memused)"
+    sleep 5
+done

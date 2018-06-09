@@ -1,0 +1,14 @@
+#! /bin/sh
+battery() {
+  BATC=/sys/class/power_supply/BAT1/capacity
+  BATS=/sys/class/power_supply/BAT1/status
+
+  test "`cat $BATS`" = "Charging" && echo -n '+' || echo -n '-'
+
+  sed -n p $BATC
+}
+
+while :; do
+    printf "B%s\n" "$(battery)"
+    sleep 1
+done

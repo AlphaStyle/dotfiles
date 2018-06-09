@@ -1,0 +1,9 @@
+#! /bin/sh
+clock() {
+    date '+%d/%m %H:%M'
+}
+
+while :; do
+    echo -e "C\uf073 $(clock)"
+    sleep 1
+done

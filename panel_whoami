@@ -1,0 +1,9 @@
+#! /bin/sh
+me() {
+    whoami
+}
+
+while :; do
+    echo "I$(me)"
+    sleep 20
+done

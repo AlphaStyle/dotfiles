@@ -1,0 +1,15 @@
+#! /bin/sh
+network() {
+    eth0=`ip a | grep "state UP" | awk '{ORS=""}{print $2}' | cut -d ':' -f 1`
+    if [[ $eth0 ]]; then
+        ping -c 1 8.8.8.8 >/dev/null 2>&1 &&
+            echo -e "$int \uf1eb" || echo -e "$int \uf46e"
+    else
+        echo -e "\uf46e"
+    fi
+}
+
+while :; do
+    echo -e "N$(network)"
+    sleep 10
+done
