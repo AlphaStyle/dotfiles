@@ -231,7 +231,7 @@ set noswapfile
 set hidden " Enable hidden buffers
 " }}}
 " Shell {{{
-set shell=/bin/sh
+set shell=/bin/zsh
 " }}}
 " }}}
 " Visual Settings {{{
@@ -390,7 +390,7 @@ augroup END
 "" Mappings
 "*****************************************************************************
 " Toggle Spelling {{{
-nnoremap <leader>s :set invspell<CR>
+nnoremap <leader>sp :set invspell<CR>
 " }}}
 " Git {{{
 noremap <Leader>ga :Gwrite<CR>
