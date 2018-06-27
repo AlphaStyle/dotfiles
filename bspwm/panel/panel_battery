@@ -1,14 +1,30 @@
-#! /bin/sh
+#! /bin/bash
 battery() {
-  BATC=/sys/class/power_supply/BAT1/capacity
-  BATS=/sys/class/power_supply/BAT1/status
+  BATC=/sys/class/power_supply/BAT0/capacity
+  BATS=/sys/class/power_supply/BAT0/status
 
-  test "`cat $BATS`" = "Charging" && echo -n '+' || echo -n '-'
+  # test "`cat $BATS`" = "Charging" && echo -n '+' || echo -n '-'
 
   sed -n p $BATC
 }
 
+. panel_colors
+
 while :; do
-    printf "B%s\n" "$(battery)"
-    sleep 1
+    amount=$(battery)
+
+    if [ $amount -eq 100 ]; then
+        icon="\uf240" # Full
+    elif [ $amount -le 75 ]; then
+        icon="\uf241" # More than half
+    elif [ $amount -le 50 ]; then
+        icon="\uf242" # Half
+    elif [ $amount -le 25 ]; then
+        icon="\uf243" # Almost Empty
+    elif [ $amount -eq 0 ]; then
+        icon="\uf244" # Empty battery
+    fi
+
+    echo -e "B %{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG}${icon} ${amount} %{B-}%{F-}"
+    sleep 20
 done

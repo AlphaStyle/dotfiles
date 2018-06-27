@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
 	printf "%s\n" "The panel is already running." >&2
@@ -10,15 +10,16 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
 mkfifo "$PANEL_FIFO"
 
-# xtitle -t 25 -sf 'T%s\n' > "$PANEL_FIFO" &
-# panel_battery > "$PANEL_FIFO" &
 # panel_mpc > "$PANEL_FIFO" &
+
+panel_battery > "$PANEL_FIFO" &
 panel_clock > "$PANEL_FIFO" &
 panel_whoami > "$PANEL_FIFO" &
 panel_cpu > "$PANEL_FIFO" &
 panel_memory > "$PANEL_FIFO" &
 panel_network > "$PANEL_FIFO" &
 panel_volume > "$PANEL_FIFO" &
+
 bspc subscribe report > "$PANEL_FIFO" &
 
 . panel_colors

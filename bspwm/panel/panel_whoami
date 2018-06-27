@@ -1,9 +1,11 @@
-#! /bin/sh
+#! /bin/bash
 me() {
     whoami
 }
 
+. panel_colors
+
 while :; do
-    echo "I$(me)"
+    echo -e "I%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}\uf2bd $(me) %{B-}%{F-}"
     sleep 20
 done

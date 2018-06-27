@@ -1,9 +1,11 @@
-#! /bin/sh
+#! /bin/bash
 clock() {
     date '+%d/%m %H:%M'
 }
 
+. panel_colors
+
 while :; do
-    echo -e "C\uf073 $(clock)"
+    echo -e "C%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}\uf073 $(clock)%{B-}%{F-}"
     sleep 1
 done

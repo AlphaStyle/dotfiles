@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 groups() {
     cur=`xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}'`
     tot=`xprop -root _NET_NUMBER_OF_DESKTOPS | awk '{print $3}'`

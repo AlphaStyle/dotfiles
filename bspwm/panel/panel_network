@@ -1,15 +1,17 @@
-#! /bin/sh
+#! /bin/bash
 network() {
     eth0=`ip a | grep "state UP" | awk '{ORS=""}{print $2}' | cut -d ':' -f 1`
-    if [[ $eth0 ]]; then
+    if [ $eth0 ]; then
         ping -c 1 8.8.8.8 >/dev/null 2>&1 &&
-            echo -e "$int \uf1eb" || echo -e "$int \uf46e"
+            echo -e "$int \uf1eb $eth0" || echo -e "$int \uf46e"
     else
         echo -e "\uf46e"
     fi
 }
 
+. panel_colors
+
 while :; do
-    echo -e "N$(network)"
-    sleep 10
+    echo -e "N%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG}$(network) %{B-}%{F-}"
+    sleep 30
 done

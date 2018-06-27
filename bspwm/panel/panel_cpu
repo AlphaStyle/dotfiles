@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 cpuload() {
     # LINE=`ps -eo pcpu | grep -vE '^\s*(0.0|%CPU)' | sed -n '1h;$!H;$g;s/\n/ +/gp'`
     # read bc <<< $LINE
@@ -6,7 +6,9 @@ cpuload() {
     echo `cat /proc/loadavg | awk '{print $1}'`
 }
 
+. panel_colors
+
 while :; do
-    echo -e "P\uf2db $(cpuload)"
+    echo -e "P%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG}\uf2db $(cpuload) %{B-}%{F-}"
     sleep 5
 done

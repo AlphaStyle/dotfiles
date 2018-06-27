@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #
 # Example panel for lemonbar
 
@@ -10,39 +10,35 @@ while read -r line ; do
     case $line in
         B*)
             # battery output
-            bat="%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG}${line#?} %{B-}%{F-}"
-            ;;
-        T*)
-            # xtitle output
-            title="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG} ${line#?} %{B-}%{F-}"
+            bat="${line#?}"
             ;;
         C*)
             # clock output
-            clock="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG} ${line#?} %{B-}%{F-}"
+            clock="${line#?}"
             ;;
         I*)
             # (Who Am I) output
-            whoami="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG} ${line#?} %{B-}%{F-}"
+            whoami="${line#?}"
             ;;
         P*)
             # cpu output
-            cpuload="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?} %{B-}%{F-}"
+            cpuload="${line#?}"
             ;;
-        G*)
-            # grous output
-            groups="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?} %{B-}%{F-}"
-            ;;
+        # G*)
+        #     # groups output
+        #     groups="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?} %{B-}%{F-}"
+        #     ;;
         N*)
             # network output
-            network="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?} %{B-}%{F-}"
+            network="${line#?}"
             ;;
         M*)
             # memory output
-            memory="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?} %{B-}%{F-}"
+            memory="${line#?}"
             ;;
         V*)
             # volume output
-            vol="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?} %{B-}%{F-}"
+            vol="${line#?}"
             ;;
         W*)
             # bspwm's state
@@ -142,5 +138,5 @@ while read -r line ; do
             done
             ;;
     esac
-    echo -e "%{l}${wm}%{c}${whoami}${clock}${title}%{r}${vol}${network}${cpuload}${memory}${bat}"
+    echo -e "%{l}${wm}%{c}${whoami}${clock}%{r}${vol}${network}${cpuload}${memory}${bat}"
 done

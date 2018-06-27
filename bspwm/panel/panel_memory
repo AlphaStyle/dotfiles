@@ -1,9 +1,11 @@
-#! /bin/sh
+#! /bin/bash
 memused() {
     free -m | awk 'NR==2{printf "%.2f", $3*100/$2}'
 }
 
+. panel_colors
+
 while :; do
-    echo -e "M\uf2db $(memused)"
+    echo -e "M%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG}\uf233 $(memused)%{B-}%{F-}"
     sleep 5
 done

@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 volume() {
     icon=""
     vol=`amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p'| uniq`
@@ -14,7 +14,9 @@ volume() {
     echo -e "${icon} ${vol}"
 }
 
+. panel_colors
+
 while :; do
-    echo -e "V$(volume)"
+    echo -e "V%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG}$(volume)%{B-}%{F-}"
     sleep 1
 done

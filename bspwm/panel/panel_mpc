@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 nowplaying() {
   cur=`mpc current`
   ## this line allow to choose whether the output will scroll or not
