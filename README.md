@@ -1,5 +1,5 @@
 # Dotfiles
-This repo contain my dotfiles.
+This repository contain my dotfiles.
 
 ![shell1](https://github.com/AlphaStyle/dotfiles/blob/master/screenshots/shell1.png "Preview 1")
 ![shell1](https://github.com/AlphaStyle/dotfiles/blob/master/screenshots/shell2.png "Preview 2")
