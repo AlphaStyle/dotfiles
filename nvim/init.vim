@@ -18,7 +18,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight', {'on': 'NERDTreeToggle'}
 " }}}
 " VimWiki {{{
-"" Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki'
 "}}}
 " Git {{{
 Plug 'tpope/vim-fugitive'
@@ -82,7 +82,7 @@ Plug 'honza/vim-snippets'
 Plug 'editorconfig/editorconfig-vim'
 " }}}
 " Golang {{{
-Plug 'fatih/vim-go', {'do': ':GoInstallBinaries', 'for': ['go']}
+Plug 'fatih/vim-go', {'tag': 'v1.17', 'do': ':GoUpdateBinaries'}
 " }}}
 " Color Theme {{{
 Plug 'KeitaNakamura/neodark.vim'
@@ -93,9 +93,23 @@ Plug 'joshdick/onedark.vim'
 " Tmux lightline {{{
 " Plug 'edkolev/tmuxline.vim'
 " }}}
+" LimeLight {{{
+Plug 'junegunn/limelight.vim'
+" }}}
+" LaTeX and Ditto {{{
+Plug 'reedes/vim-lexical'
+Plug 'dbmrq/vim-ditto'
+Plug 'lervag/vimtex'
+" }}}
+" Unix filesystem helpers {{{
+Plug 'tpope/vim-eunuch'
+" }}}
+" Enhance netrw Vinegar {{{
+Plug 'tpope/vim-vinegar'
+" }}}
 " Mardown {{{
-" Plug 'vim-pandoc/vim-pandoc', {'for': ['md', 'markdown']}
-" Plug 'vim-pandoc/vim-pandoc-syntax', {'for': ['md', 'markdown']}
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 " }}}
 " Python {{{
 " Plug 'davidhalter/jedi-vim', {'for': ['py', 'python']}
@@ -332,11 +346,18 @@ augroup vimrc-remember-cursor-position
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 " }}}
-" Markdown {{{
-augroup vimrc-markdown
-    autocmd!
-    autocmd FileType markdown set conceallevel=1
+" LaTeX / LeXical / Markdown {{{
+augroup lexical
+  autocmd!
+  autocmd FileType markdown,mkd,text,tex,textile,vimwiki call lexical#init({ 'spell': 1 }) |
+              \  DittoOn
 augroup END
+"}}}
+" Markdown {{{
+" augroup vimrc-markdown
+"     autocmd!
+"     autocmd FileType markdown set conceallevel=1
+" augroup END
 " }}}
 " Vim-Python {{{
 augroup vimrc-python
@@ -480,13 +501,13 @@ inoremap <S-Tab> <C-d>
 nmap <silent> <F4> :TagbarToggle<CR>
 " }}}
 " NERDTree {{{
-nnoremap <silent> <F2> :NERDTreeFind<CR>
-nnoremap <silent> <leader><F2> :NERDTreeTabsFind<CR>
-noremap <F3> :NERDTreeToggle<CR>
-noremap <leader><F3> :NERDTreeTabsToggle<CR>
+" nnoremap <silent> <F2> :NERDTreeFind<CR>
+" nnoremap <silent> <leader><F2> :NERDTreeTabsFind<CR>
+" noremap <F3> :NERDTreeToggle<CR>
+" noremap <leader><F3> :NERDTreeTabsToggle<CR>
 " }}}}
 " Toggle gundo {{{
-nnoremap <leader>u :GundoToggle<CR>
+" nnoremap <leader>u :GundoToggle<CR>
 " }}}
 " }}}
 " Custom Configs {{{
@@ -613,12 +634,54 @@ let g:jedi#smart_auto_mappings = 0
 let g:polyglot_disabled = ['go']
 " }}}
 " Clever-f {{{
-let g:clever_f_across_no_line = 1
-let g:clever_f_timeout_ms = 3000
+" let g:clever_f_across_no_line = 1
+" let g:clever_f_timeout_ms = 3000
+" }}}
+" LimeLight {{{
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+" Color name (:help gui-colors) or RGB color
+let g:limelight_conceal_guifg = 'DarkGray'
+let g:limelight_conceal_guifg = '#777777'
+" Default: 0.5
+let g:limelight_default_coefficient = 0.7
+" Number of preceding/following paragraphs to include (default: 0)
+let g:limelight_paragraph_span = 1
+" Beginning/end of paragraph
+"   When there's no empty line between the paragraphs
+"   and each paragraph starts with indentation
+let g:limelight_bop = '^\s'
+let g:limelight_eop = '\ze\n^\s'
+" Highlighting priority (default: 10)
+"   Set it to -1 not to overrule hlsearch
+let g:limelight_priority = -1
+" }}}
+" LaTeX {{{
+let g:lexical#spell = 1         " 0=disabled, 1=enabled
+let g:lexical#spelllang = ['en_us', 'nb',]
+let g:lexical#dictionary = ['/usr/share/dict/words',]
+let g:lexical#thesaurus = ['~/.config/nvim/thesaurus/mthesaur.txt',]
+let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
+" let g:vim_markdown_conceal = 1
 " }}}
 " Markdown {{{
 let g:vim_markdown_folding_disabled = 1
 " let g:vim_markdown_conceal = 1
+" }}}
+" VimWiki {{{
+let wiki_1 = {}
+let wiki_1.path = '~/vimwiki/school/'
+let wiki_1.syntax = 'markdown'
+let wiki_1.ext = '.md'
+
+let wiki_2 = {}
+let wiki_2.path = '~/vimwiki/programming/'
+let wiki_2.syntax = 'markdown'
+let wiki_2.ext = '.md'
+
+let g:vimwiki_list = [wiki_1, wiki_2]
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 " }}}
 " FZF Fuzzy finder (with ripgrep) {{{
 " --column: Show column number
