@@ -45,6 +45,10 @@ ZSH_LOCAL="$HOME/.dotfiles/.zshrc"
 ZSH_EXTERNAL="$HOME/.zshrc"
 compareFiles $ZSH_LOCAL $ZSH_EXTERNAL
 
+FISH_LOCAL="$HOME/.dotfiles/.config/fish/config.fish"
+FISH_EXTERNAL="$HOME/.config/fish/config.fish"
+compareFiles $FISH_LOCAL $FISH_EXTERNAL
+
 TMUX_LOCAL="$HOME/.dotfiles/.tmux.conf"
 TMUX_EXTERNAL="$HOME/.tmux.conf"
 compareFiles $TMUX_LOCAL $TMUX_EXTERNAL
