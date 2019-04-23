@@ -14,7 +14,7 @@ noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
 "" Open current line on GitHub
-nnoremap <Leader>o :.Gbrowse<CR>
+" nnoremap <Leader>o :.Gbrowse<CR>
 " }}}
 " Terminal emulation {{{
 nnoremap <silent> <leader>sh :terminal<CR>
@@ -66,10 +66,10 @@ nnoremap <Leader>a :Ack!<Space>
 "nnoremap <Leader>A :Ag!<Space>
 " }}}
 " FZF Fuzzyfinder {{{
-nmap <leader>f :Find<CR>
-nmap <leader><leader>f :Files<CR>
-nmap <leader>b :Buffers<Space>
-nmap <leader><leader>b :Buffers<CR>
+" nmap <leader>f :Find<CR>
+" nmap <leader><leader>f :Files<CR>
+" nmap <leader>b :Buffers<Space>
+" nmap <leader><leader>b :Buffers<CR>
 " }}}
 " Vmap for maintain Visual Mode after shifting > and < {{{
 vmap < <gv

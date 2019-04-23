@@ -16,21 +16,21 @@ Plug 'vimwiki/vimwiki'
 " Git {{{
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-rhubarb' " Github
-Plug 'tpope/vim-git' " Git Syntax
+" Plug 'tpope/vim-rhubarb' " Github
+" Plug 'tpope/vim-git' " Git Syntax
 " }}}
 " Far (Find and Replace) {{{
-Plug 'brooth/far.vim'
+" Plug 'brooth/far.vim'
 " }}}
 " Tabular (aligning stuff) {{{
-Plug 'godlygeek/tabular'
+" Plug 'godlygeek/tabular'
 " }}}
 " Node.js {{{
-Plug 'moll/vim-node'
+" Plug 'moll/vim-node'
 " }}}
 " Status line (Lightline) {{{
-Plug 'itchyny/lightline.vim'
-Plug 'itchyny/vim-gitbranch'
+" Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/vim-gitbranch'
 " }}}
 " Golang {{{
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
@@ -38,7 +38,7 @@ Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 " }}}
 " General stuff {{{
 Plug 'sheerun/vim-polyglot' " Syntax
-Plug 'bronson/vim-trailing-whitespace' " Show and remove whitespace
+" Plug 'bronson/vim-trailing-whitespace' " Show and remove whitespace
 Plug 'Raimondi/delimitMate' " Auto close {[
 Plug 'Yggdroot/indentLine' " Show Indent lines
 " }}}
@@ -52,8 +52,8 @@ Plug 'tpope/vim-surround'
 Plug 'mileszs/ack.vim'
 " }}}
 " FZF Fuzzy Finder {{{
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
 " }}}
 " Misc (Tagbar, Mutltiple-cursor, Superbar) {{{
 Plug 'terryma/vim-multiple-cursors' " Edit with multiple cursors
@@ -66,10 +66,10 @@ Plug 'neomake/neomake'
 Plug 'benjie/neomake-local-eslint.vim', {'for': ['js', 'javascript', 'javascript.jsx', 'jsx', 'vue', 'html']}
 " }}}
 " Snippets {{{
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'Shougo/neosnippet'
+" Plug 'Shougo/neosnippet-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 " }}}
 " Editorconfig {{{
 Plug 'editorconfig/editorconfig-vim'
@@ -86,10 +86,10 @@ Plug 'dbmrq/vim-ditto'
 Plug 'lervag/vimtex'
 " }}}
 " Unix filesystem helpers {{{
-Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-eunuch'
 " }}}
 " Enhance netrw Vinegar {{{
-Plug 'tpope/vim-vinegar'
+" Plug 'tpope/vim-vinegar'
 " }}}
 " Mardown {{{
 Plug 'vim-pandoc/vim-pandoc'

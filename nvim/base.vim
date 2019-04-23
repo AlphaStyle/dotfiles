@@ -40,6 +40,7 @@ set hlsearch
 set incsearch
 set smartcase
 set infercase
+set path+=**
 " }}}
 " Wildmenu {{{
 set wildmenu
@@ -99,6 +100,7 @@ set scrolloff=3
 " }}}
 " Status bar {{{
 set laststatus=2
+set statusline=[%{mode()}]%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 " }}}
 " Use modeline overrides {{{
 set modeline
@@ -111,6 +113,14 @@ set titlestring=%F
 " }}}
 " Disable visualbell {{{
 set noerrorbells visualbell t_vb=
+" }}}
+" netrw settings {{{
+" let g:netrw_
+let g:netrw_browse_split=4
+let g:netrw_altv=1
+let g:netrw_liststyle=3
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide=',\(^\|s\s\)\zs\.\S\+'
 " }}}
 "*****************************************************************************
 "" Abbreviations
@@ -130,6 +140,22 @@ cnoreabbrev Qall qall
 "*****************************************************************************
 "" Autocmd Rules
 "*****************************************************************************
+" Remove Trailing Whitespace On Save{{{
+function! StripTrailingWhitespace()
+  if !&binary && &filetype != 'diff'
+    normal mz
+    normal Hmy
+    %s/\s\+$//e
+    normal 'yz<CR>
+    normal `z
+  endif
+endfunction
+
+augroup remove-white-space
+    autocmd!
+    autocmd BufWritePre * call StripTrailingWhitespace()
+augroup END
+" }}}
 " The PC is fast enough, do syntax highlight syncing from start {{{
 augroup vimrc-sync-fromstart
     autocmd!
