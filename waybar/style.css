@@ -16,7 +16,7 @@ window#waybar {
     background: #1a1a1a;
 }
 
-#workspaces, #clock.1, #clock.2, #clock.3, #pulseaudio, #backlight, #memory, #cpu, #temperature, #battery, #tray, #network {
+#workspaces, #clock.1, #clock.2, #clock.3, #pulseaudio, #backlight, #memory, #cpu, #temperature, #battery, #tray, #network, #mode {
     background: #1a1a1a;
 }
 
@@ -51,6 +51,10 @@ window#waybar {
 }
 #temperature {
     color: #b58900
+}
+#mode {
+    padding: 3px;
+    color: #eb4d4b;
 }
 #temperature.critical {
     color: #eb4d4b;

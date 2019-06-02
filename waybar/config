@@ -6,7 +6,8 @@
 
   "modules-left": [
     "sway/workspaces",
-    "custom/right-arrow-dark"
+    "custom/right-arrow-dark",
+    "sway/mode"
   ],
   "modules-center": [
     "custom/left-arrow-dark",
@@ -42,23 +43,32 @@
     "battery",
     "custom/left-arrow-light",
     "custom/left-arrow-dark",
-    "tray"
+    "tray",
+    "custom/left-arrow-light"
   ],
 
   "custom/left-arrow-dark": {
-    "format": "",
+    "format": "{}",
+    "exec": "echo ",
+	"interval": "once",
     "tooltip": false
   },
   "custom/left-arrow-light": {
-    "format": "",
+    "format": "{}",
+    "exec": " echo ",
+	"interval": "once",
     "tooltip": false
   },
   "custom/right-arrow-dark": {
-    "format": "",
+    "format": "{}",
+    "exec": "echo ",
+	"interval": "once",
     "tooltip": false
   },
   "custom/right-arrow-light": {
-    "format": "",
+    "format": "{}",
+    "exec": "echo ",
+	"interval": "once",
     "tooltip": false
   },
 
@@ -87,7 +97,7 @@
     "tooltip": false
   },
   "clock#3": {
-    "format": "{:%m-%d}",
+    "format": "{:%d-%m}",
     "tooltip": false
   },
 
