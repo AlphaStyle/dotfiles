@@ -44,7 +44,9 @@
     "custom/left-arrow-light",
     "custom/left-arrow-dark",
     "tray",
-    "custom/left-arrow-light"
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "custom/power"
   ],
 
   "custom/left-arrow-dark": {
@@ -158,6 +160,12 @@
     ]
   },
   "tray": {
-    "icon-size": 20
+    "icon-size": 20,
+    "spacing": 5
+  }, 
+  "custom/power": { 
+      "format": "{}",
+      "exec":"echo ", 
+      "on-click": "swaynag -t warning -m 'Power Menu Options' -b 'Logout' 'swaymsg exit' -b 'Suspend' 'sudo zzz' -b 'Shutdown' 'sudo shutdown -h now' -b 'Reboot' 'sudo shutdown -r now'"
   }
 }

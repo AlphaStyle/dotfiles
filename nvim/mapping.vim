@@ -16,6 +16,14 @@ noremap <Leader>gr :Gremove<CR>
 "" Open current line on GitHub
 " nnoremap <Leader>o :.Gbrowse<CR>
 " }}}
+"  ALE {{{
+" nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+nmap <silent> <F2> <Plug>(ale_find_references)
+nmap <silent> gd <Plug>(ale_go_to_definition)
+nmap <silent> K <Plug>(ale_documentation)
+"  }}}
 " Terminal emulation {{{
 nnoremap <silent> <leader>sh :terminal<CR>
 " }}}
@@ -63,7 +71,6 @@ nnoremap <silent> <leader><space> :noh<cr>
 " }}}
 " Ack search (Open ack.vim) {{{
 nnoremap <Leader>a :Ack!<Space>
-"nnoremap <Leader>A :Ag!<Space>
 " }}}
 " FZF Fuzzyfinder {{{
 " nmap <leader>f :Find<CR>

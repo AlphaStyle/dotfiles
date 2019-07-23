@@ -1,75 +1,83 @@
-# Universal Golang Variables
-set -Ux GOPATH ~/projects
-set -Ux GOROOT ~/usr/lib/go
+# Golang Variables
+set -x GOPATH ~/go
+set -x GOROOT /usr/lib/go
+set -Ux GEM_HOME ~/.gem
+# Ruby Variables
+set -x RubyBin (ruby -e 'print Gem.user_dir')/bin
+set -x GemPath (ruby -r rubygems -e 'puts Gem.user_dir')/bin
 
-# Universal Ruby Variable
-# RUBY_BIN (ruby -e 'print Gem.user_dir')"/bin"
-
+# Pythong / Pip local bin folder
+set -x LOCALBIN ~/.local/bin
+# Cargo (Rust)  Bin
+set -x CARGOBIN ~/.cargo/bin
+# Apache Maven Bin
+set -x MAVENBIN /usr/share/apache-maven/bin
 # Universal Node.js variable
 set -Ux npm_config_prefix ~/.node_modules
+set -x NPMBIN ~/.node_modules/bin
 
 # fzf default command with ripgrep
 set -Ux FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
-# HasiCopr Binary folder (Nomad, Consul, Vault)
-# set -Ux HASICORP_BIN $HOME/container/hasicorp-exercise/bin
+# set -Ux QT_QPA_PLATFORM wayland
+# set -Ux QT_QPA_PLATFORMTHEME qt5ct
+# set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION '1'
+# set -Ux GTK_THEME 'Arc-Darker'
 
 # Default Universal Variables
 set -Ux VISUAL nvim
 set -Ux EDITOR nvim
 set -Ux PAGER most
-# set -Ux TERM "tmux-256color"
-set -gx TERM "tmux-256color"
+# set -gx TERM "tmux256color"
+set -gx TERM 'xterm-256color'
 
 # Path
-set -x PATH $GOROOT $GOPATH $GOPATH/bin $PATH
-# set -x PATH $HASICORP_BIN
+set -x PATH $GOROOT $GOPATH $GOPATH/bin $GemPath $GEM_HOME $RubyBin $PATH
+set -x PATH $MAVENBIN $LOCALBIN $CARGOBIN $NPMBIN $PATH
+set -x PATH $PATH
 
 # Aliases
-# Easy shortcuts
-# alias vim="nvim"
 function vim -d 'overwrite vim to be nvim'
-    nvim
+    command nvim $argv
 end
 
-# alias zshconfig="nvim ~/.zshrc"
 function zshconfig -d 'open zsh config'
     nvim ~/.zshrc
 end
 
-# alias fishconfig="nvim ~/.config/fish/config.fish"
 function fishconfig -d 'open fish config'
     nvim ~/.config/fish/config.fish
 end
 
-# alias tmuxconfig="nvim ~/.tmux.conf"
 function tmuxconfig -d 'open tmux config'
     nvim ~/.tmux.conf
 end
 
-# alias vimconfig="nvim ~/.config/nvim/init.vim"
 function vimconfig -d 'open neovim config'
     nvim ~/.config/nvim/init.vim
 end
 
+function swayconfig -d 'open sway config'
+    nvim ~/.config/sway/config
+end
+
+function waybarconfig -d 'open sway config'
+    nvim ~/.config/waybar/config
+end
+
 # Tmux shotcuts
-# alias tls="tmux ls"
 function tls -d 'list all tmux sessions'
     tmux ls
 end
 
-# alias tns="tmux new-session -s"
 function tns -d 'make a new tmux session with <name>'
-    tmux new-session -s
+    command tmux new-session -s $argv
 end
 
-# alias tat="tmux attach -t"
 function tat -d 'attach tmuc pane/window'
-    tmux attach -t
+    command tmux attach -t $argv
 end
 
-# alias tkill="tmux kill-session -t"
 function tkill -d 'kill a tmux session'
-    tmux kill-session -t
+    command tmux kill-session -t $argv
 end
-

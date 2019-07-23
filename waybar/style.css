@@ -1,5 +1,5 @@
 * {
-    font-size: 13px;
+    font-size: 12px;
     font-family: monospace;
 }
 
@@ -16,7 +16,10 @@ window#waybar {
     background: #1a1a1a;
 }
 
-#workspaces, #clock.1, #clock.2, #clock.3, #pulseaudio, #backlight, #memory, #cpu, #temperature, #battery, #tray, #network, #mode {
+#workspaces, #clock.1, #clock.2, #clock.3, 
+#pulseaudio, #backlight, #memory, #cpu, 
+#temperature, #battery, #tray, #network, 
+#mode, #custom-power {
     background: #1a1a1a;
 }
 
@@ -68,6 +71,9 @@ window#waybar {
 #battery.charging {
     color: #ffffff;
 }
+#custom-power {
+    color: #eb4b4b;
+}
 @keyframes blink {
     to {
         color: #000000;
@@ -89,6 +95,11 @@ window#waybar {
     color: #f53c3c;
 }
 
-#clock, #pulseaudio, #backlight, #memory, #cpu, #temperature, #battery, #network {
+#clock, #pulseaudio, #backlight, #memory,
+#cpu, #temperature, #battery, #network,
+#tray {
     padding: 0 10px;
+}
+#custom-power {
+    padding: 0 10 0 10;
 }

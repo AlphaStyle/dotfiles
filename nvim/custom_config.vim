@@ -1,50 +1,50 @@
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
-" LanguageClient Settings {{{
-" let g:LanguageClient_rootMarkers = {
-"         \ 'go': ['.git', 'go.mod'],
-"         \ }
-
-" \ 'go': ['bingo', '--mode', 'stdio', '--logfile', '/tmp/lspserver.log'],
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['/usr/bin/rust', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/bin/javascript-typescript-stdio'],
-    \ 'python': ['/usr/bin/pyls'],
-    \ 'sh': ['bash-language-server', 'start'],
-    \ }
-
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-" }}}
-" Use deoplete {{{
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#omni#functions = {}
-let g:deoplete#omni#functions.javascript = [
-            \ 'tern#Complete',
-            \ 'jspc#omni'
-            \ ]
-
-" \ 'go': ['LanguageClient'],
-call deoplete#custom#option('sources', {
-    \ 'python': ['LanguageClient'],
-    \ 'rust': ['LanguageClient'],
-    \ 'sh': ['LanguageClient'],
-    \ 'javascript': ['LanguageClient'],
-\})
-" }}}
 " Tagbar configuration {{{
 let g:tagbar_autofocus = 1
 " }}}
-" Neomake {{{
-" When writing a buffer, and on normal mode changes (after 750ms).
-call neomake#configure#automake('w')
-" call neomake#configure#automake('rw', 1000)
-"" Show info if needed
-let g:neomake_open_list = 2
+" ALE {{{
+let g:ale_completion_enabled = 1
+set completeopt=menu,menuone,preview,noselect,noinsert
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_fix_on_save = 1
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+let g:ale_list_window_size = 5
+let g:ale_set_balloons = 1
+
+let g:ale_go_bingo_executable = 'gopls'
+let g:ale_java_eclipselsp_path = '/usr/local/bin/jdtls'
+
+let g:ale_linter_aliases = {
+\   'svelte': ['javascript']
+\}
+let g:ale_linters = {
+\   'svelte': ['eslint'],
+\   'python': ['pyls'],
+\   'java': ['eclipselsp'],
+\   'rust': ['rls'],
+\   'vue': ['vls'],
+\   'vim': ['vimt'],
+\   'json': ['jsonlint'],
+\   'markdown': ['alex'],
+\   'go': ['gopls'],
+\   'sh': ['language_server', 'shellcheck'],
+\}
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'rust': ['rustfmt'],
+\   'svelte': ['eslint'],
+\   'go': ['gofmt'],
+\   'python': ['autopep8']
+\}
+
+let g:ale_linters_explicit = 0
+let g:ale_rust_rls_config = {'rust': { 'clippy_preference': 'on'}}
+
 " }}}
 " NeoSnippet {{{
 "" Enable snipMate compatibility feature.
@@ -59,30 +59,18 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 " }}}
-" Use tern_for_vim {{{
-let g:tern#command = ["tern"]
-let g:tern#arguments = ["--persistent"]
-" }}}
-" Use ternjs (javascript) {{{
-let g:tern_request_timeout = 1
-let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
-" Add extra file types to ternjs for javascript
-let g:tern#filetypes = [
-            \ 'jsx',
-            \ 'javascript.jsx',
-            \ 'javascript',
-            \ 'js',
-            \ 'vue'
-            \ ]
-" }}}
 " Copy/Paste/Cut Clipboard {{{
-set clipboard^=unnamed,unnamedplus
+" set clipboard=unnamedplus
+set clipboard^=unnamedplus
 " }}}
 " Ag / Ack - Make ag default for ack {{{
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 "}}}
+" Rust {{{
+let g:rustfmt_autosave = 1
+" }}}
 " Golang {{{
 let g:tagbar_type_go = {
             \ 'ctagstype' : 'go',
@@ -98,8 +86,8 @@ let g:tagbar_type_go = {
 set autowrite
 
 let g:go_highlight_functions = 1
-let g:go_highlight_functions_arguments = 1
-let g:go_highlight_functions_calls = 1
+let g:go_highlight_function_arguments = 1
+let g:go_highlight_function_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
@@ -111,8 +99,11 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 "" Automatically imports/remove packages
-let g:go_fmt_command = "goimports"
-let g:go_list_type = "quickfix"
+" let g:go_fmt_command = "goimports"
+" let g:go_list_type = "quickfix"
+
+" let g:go_def_mode='gopls'
+" let g:go_info_mode='gopls'
 " }}}
 " Javascript {{{
 let g:javascript_plugin_jsdoc = 1
@@ -120,22 +111,11 @@ let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 " }}}
 " JSX {{{
-let g:jsx_ext_required = 0
-" }}}
-" Python Jedi-vim {{{
-let g:jedi#popup_on_dot = 0
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>d"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#rename_command = "<leader>r"
-let g:jedi#show_call_signatures = "0"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#smart_auto_mappings = 0
+let g:jsx_ext_required = 1
 " }}}
 " Polyglot (Syntax) {{{
 " Disable Polyglot syntax for x
-let g:polyglot_disabled = ['go']
+let g:polyglot_disabled = ['go', 'rust']
 " }}}
 " Lexical {{{
 let g:lexical#spell = 1         " 0=disabled, 1=enabled
