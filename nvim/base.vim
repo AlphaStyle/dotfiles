@@ -1,78 +1,78 @@
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
-" Encoding {{{
+" Encoding 
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 set bomb
 set binary
 set fileformats=unix,dos,mac
-" }}}
-" Mouse settings {{{
+
+" Mouse settings 
 set mouse=v " Paste with middle-click on mouse
 set mouse=a " Enable mouse
 set mousemodel=popup
-" }}}
-" Tabs {{{
+
+" Tabs 
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
 set backspace=indent,eol,start " Fix backspace indent
-" }}}
-" Folding {{{
+
+" Folding 
 set foldenable
 set foldlevelstart=10
 set foldnestmax=10
 set foldmethod=indent
-" }}}
-" Faster load, render {{{
+
+" Faster load, render 
 set lazyredraw
 set noshowcmd
 set autoread
-" }}}
-" Map leader {{{
+
+" Map leader 
 let mapleader=','
-" }}}
-" Searching {{{
+
+" Searching 
 set hlsearch
 set incsearch
 set smartcase
 set infercase
 set path+=**
-" }}}
-" Wildmenu {{{
+
+" Wildmenu 
 set wildmenu
 set wildmode=full
-" }}}
-" bakup and swwpfiles {{{
+
+" bakup and swwpfiles 
 set nobackup
 set noswapfile
-" }}}
-" Buffers {{{
+
+" Buffers 
 set hidden " Enable hidden buffers
-" }}}
+
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
-" Number, Ruler, Wrap {{{
+" Number, Ruler, Wrap 
 let no_buffers_menu=1
 syntax on
 set ruler
-set textwidth=79
+set textwidth=100
 set wrap " Wrap text
 set wm=2 " Hard Wrap text
 set number
 set relativenumber
-" }}}
-" Highlight matching word and line {{{
+
+" Highlight matching word and line 
 set showmatch " Highlight matching [{()}]
 set nocursorline " (TurnOff) Highligh the line the cursor is on
 set nocursorcolumn " (TurnOff)
 set synmaxcol=200 " Limit syntax highlight for only the first 200 lines of code
-" }}}
-" Color Theme {{{
+
+" Color Theme 
 colorscheme onedark
 let g:neodark#terminal_transparent = 1
 let g:neodark#use_256color = 1
@@ -85,47 +85,47 @@ if (has("termguicolors"))
     set termguicolors
     set background=dark
 endif
-" }}}
-" IndentLine {{{
+
+" IndentLine 
 let g:indentLine_enabled = 1
 let g:indentLine_concealcursor = 0
 let g:indentLine_char = '┆'
 let g:indentLine_setColors = 0
 let g:indentLine_faster = 1
 " let g:indentLine_setConceal = 0
-" }}}
-" Disable the blinking cursor {{{
+
+" Disable the blinking cursor 
 set gcr=a:blinkon0
 set scrolloff=3
-" }}}
-" Status bar {{{
+
+" Status bar 
 set laststatus=2
 set statusline=[%{mode()}]%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
-" }}}
-" Use modeline overrides {{{
+
+" Use modeline overrides 
 set modeline
 set modelines=10
-" }}}
-" Title {{{
+
+" Title 
 set title
 set titleold="Terminal"
 set titlestring=%F
-" }}}
-" Disable visualbell {{{
+
+" Disable visualbell 
 set noerrorbells visualbell t_vb=
-" }}}
-" netrw settings {{{
+
+" netrw settings 
 " let g:netrw_
 let g:netrw_browse_split=0
 let g:netrw_altv=1
 let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide=',\(^\|s\s\)\zs\.\S\+'
-" }}}
+
 "*****************************************************************************
 "" Abbreviations
 "*****************************************************************************
-"" no one is really happy until you have these shortcuts {{{
+"" no one is really happy until you have these shortcuts 
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
 cnoreabbrev Qall! qall!
@@ -136,11 +136,11 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
-" }}}
+
 "*****************************************************************************
 "" Autocmd Rules
 "*****************************************************************************
-" Remove Trailing Whitespace On Save{{{
+" Remove Trailing Whitespace On Save
 function! StripTrailingWhitespace()
   if !&binary && &filetype != 'diff'
     normal mz
@@ -155,35 +155,35 @@ augroup remove-white-space
     autocmd!
     autocmd BufWritePre * call StripTrailingWhitespace()
 augroup END
-" }}}
-" The PC is fast enough, do syntax highlight syncing from start {{{
+
+" The PC is fast enough, do syntax highlight syncing from start 
 augroup vimrc-sync-fromstart
     autocmd!
     autocmd BufEnter * :syntax sync fromstart
 augroup END
-" }}}
-" Remember cursor position {{{
+
+" Remember cursor position 
 augroup vimrc-remember-cursor-position
     autocmd!
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
-" }}}
-" LaTeX / LeXical / Markdown {{{
+
+" LaTeX / LeXical / Markdown 
 augroup lexical
   autocmd!
   autocmd FileType markdown,mkd,text,tex,textile,vimwiki call lexical#init({ 'spell': 1 }) |
               \  DittoOn
 augroup END
-"}}}
-" Vim-Python {{{
+
+" Vim-Python 
 augroup vimrc-python
     autocmd!
     autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
                 \ formatoptions+=croq softtabstop=4 smartindent
                 \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 augroup END
-" }}}
-" vim-go {{{
+
+" vim-go 
 augroup FileType go
     au!
     au FileType go nmap gd <Plug>(go-def)
@@ -200,12 +200,10 @@ augroup FileType go
     au FileType go nmap <leader>gl <Plug>(go-metalinter)
     au FileType go nmap <leader>gv <Plug>(go-coverage)
 augroup END
-" }}}
-" Vue files {{{
+
+" Vue files 
 augroup vue-file-option-tabs
     autocmd!
     autocmd FileType vue setlocal relativenumber!
 augroup END
-" }}}
 
-" vim:foldmethod=marker:foldlevel=0

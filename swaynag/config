@@ -1,0 +1,23 @@
+font=Monospace 10
+edge=top
+
+[info]
+background=282c34
+border=282c34
+border-bottom=282c34
+button-background=50536b
+text=6eaafb
+
+[warning]
+background=282c34
+border=282c34
+border-bottom=282c34
+button-background=50536b
+text=eb4d4b
+
+[success]
+background=282c34
+border=282c34
+border-bottom=282c34
+button-background=50536b
+text=2ecc71

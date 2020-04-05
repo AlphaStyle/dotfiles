@@ -1,11 +1,40 @@
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
-" Tagbar configuration {{{
+" Tagbar configuration 
 let g:tagbar_autofocus = 1
-" }}}
-" ALE {{{
-let g:ale_completion_enabled = 1
+
+" NeovimLanguageClient completion
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'python': ['pyls'],
+    \ 'go': ['gopls'],
+    \ 'java': ['/usr/local/bin/jdtls', '-data', getcwd()],
+    \ 'sh': ['language_server', 'shellcheck'],
+    \ 'vue': ['vls'],
+    \ 'vim': ['vimt'],
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
+    \ }
+
+let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+let g:LanguageClient_settingsPath = '/home/tb/.config/nvim/settings.json'
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+set omnifunc=LanguageClient#complete
+
+" ALE 
+" set omnifunc=ale#completion#OmniFunc
+
+" let g:ale_completion_enabled = 1
 set completeopt=menu,menuone,preview,noselect,noinsert
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
@@ -17,7 +46,11 @@ let g:ale_list_window_size = 5
 let g:ale_set_balloons = 1
 
 let g:ale_go_bingo_executable = 'gopls'
-let g:ale_java_eclipselsp_path = '/usr/local/bin/jdtls'
+" let g:ale_java_eclipselsp_path = '/home/tb/Downloads/eclipse.jdt.ls'
+" let g:ale_java_eclipselsp_path = '/home/tb/.vscode-oss/extensions/redhat.java-0.47.0/'
+" let g:ale_java_eclipselsp_config_path = '/usr/local/bin/jdtls'
+
+"\   'java': ['eclipselsp'],
 
 let g:ale_linter_aliases = {
 \   'svelte': ['javascript']
@@ -25,7 +58,6 @@ let g:ale_linter_aliases = {
 let g:ale_linters = {
 \   'svelte': ['eslint'],
 \   'python': ['pyls'],
-\   'java': ['eclipselsp'],
 \   'rust': ['rls'],
 \   'vue': ['vls'],
 \   'vim': ['vimt'],
@@ -45,33 +77,39 @@ let g:ale_fixers = {
 let g:ale_linters_explicit = 0
 let g:ale_rust_rls_config = {'rust': { 'clippy_preference': 'on'}}
 
-" }}}
-" NeoSnippet {{{
+
+" NeoSnippet 
 "" Enable snipMate compatibility feature.
 let g:neosnippet#enable_snipmate_compatibility = 1
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" }}}
-" Ultisnipet {{{
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-let g:UltiSnipsEditSplit="vertical"
-" }}}
-" Copy/Paste/Cut Clipboard {{{
+
+" Java Settings 
+let g:java_highlight_functions = 1
+let g:java_highlight_java_lang_ids=1
+let g:java_highlight_java_io=1
+let g:java_highlight_debug=1
+
+" Ultisnipet 
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<c-b>'
+let g:UltiSnipsEditSplit='vertical'
+
+" Copy/Paste/Cut Clipboard 
 " set clipboard=unnamedplus
 set clipboard^=unnamedplus
-" }}}
-" Ag / Ack - Make ag default for ack {{{
+
+" Ag / Ack - Make ag default for ack 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
-"}}}
-" Rust {{{
+
+" Rust 
 let g:rustfmt_autosave = 1
-" }}}
-" Golang {{{
+
+" Golang 
 let g:tagbar_type_go = {
             \ 'ctagstype' : 'go',
             \ 'kinds'     : [  'p:package', 'i:imports:1', 'c:constants', 'v:variables',
@@ -104,46 +142,47 @@ let g:go_highlight_variable_assignments = 1
 
 " let g:go_def_mode='gopls'
 " let g:go_info_mode='gopls'
-" }}}
-" Javascript {{{
+
+" Javascript 
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
-" }}}
-" JSX {{{
+
+" JSX 
 let g:jsx_ext_required = 1
-" }}}
-" Polyglot (Syntax) {{{
+
+" Polyglot (Syntax) 
 " Disable Polyglot syntax for x
 let g:polyglot_disabled = ['go', 'rust']
-" }}}
-" Lexical {{{
+
+" Lexical 
 let g:lexical#spell = 1         " 0=disabled, 1=enabled
 let g:lexical#spelllang = ['en_us', 'nb',]
 let g:lexical#dictionary = ['/usr/share/dict/words',]
 let g:lexical#thesaurus = ['~/.config/nvim/thesaurus/mthesaur.txt',]
 let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
 " let g:vim_markdown_conceal = 1
-" }}}
-" Markdown {{{
+
+" Markdown 
 let g:vim_markdown_folding_disabled = 1
 " let g:vim_markdown_conceal = 1
-" }}}
-" VimWiki {{{
+
+" VimWiki 
 let wiki_1 = {}
 let wiki_1.path = '~/vimwiki/school/'
 let wiki_1.syntax = 'markdown'
 let wiki_1.ext = '.md'
 
-let wiki_2 = {}
-let wiki_2.path = '~/vimwiki/programming/'
-let wiki_2.syntax = 'markdown'
-let wiki_2.ext = '.md'
+" let wiki_2 = {}
+" let wiki_2.path = '~/vimwiki/programming/'
+" let wiki_2.syntax = 'markdown'
+" let wiki_2.ext = '.md'
 
-let g:vimwiki_list = [wiki_1, wiki_2]
+let g:vimwiki_list = [wiki_1]
+" let g:vimwiki_list = [wiki_1, wiki_2]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-" }}}
-" FZF Fuzzy finder (with ripgrep) {{{
+
+" FZF Fuzzy finder (with ripgrep) 
 " --column: Show column number
 " --line-number: Show line number
 " --no-heading: Do not show file headings in results
@@ -162,11 +201,8 @@ command! -bang -nargs=* Find
             \ <bang>0 ? fzf#vim#with_preview('up:60%')
             \         : fzf#vim#with_preview('right:50%:hidden', '?'),
             \ <bang>0)
-" }}}
-" Lightline Config {{{
-"*******************************************************************************************
-"" Lightline
-"*******************************************************************************************
+
+" Lightline Config 
 set noshowmode
 let g:lightline = {
             \ 'colorscheme': 'onedark',
@@ -189,7 +225,7 @@ let g:lightline = {
 
 "" Will show whether or not the file has been modified
 function! LightlineModified()
-    return winwidth(0) > 70 ? (&ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-') : ''
+    return winwidth(0) > 70 ? (&filetype =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-') : ''
 endfunction
 
 "" Will show whether it is read only or not
@@ -267,11 +303,8 @@ function! LightlineGitGutter()
     endif
     return ''
 endfunction
-" }}}
-" TmuxLine Config {{{
-"*****************************************************************************
-"" Tmuxline
-"*****************************************************************************
+
+" TmuxLine Config 
 let g:tmuxline_preset = {
             \'a'    : 'Dev',
             \'win'    : '#W',
@@ -285,5 +318,4 @@ let g:tmuxline_separators = {
             \ 'right' : '',
             \ 'right_alt' : '|',
             \ 'space' : ' '}
-" }}}
-" vim:foldmethod=marker:foldlevel=0
+

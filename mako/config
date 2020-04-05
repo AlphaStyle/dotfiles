@@ -1,6 +1,6 @@
 font=DejaVu Sans Mono 11
-background-color=#000000
-text-color=#ffffff
+background-color=#292b2e
+text-color=#fdf6e3
 border-color=#333333
 ignore-timeout=1
 #border-size=10
@@ -9,8 +9,8 @@ ignore-timeout=1
 
 [hidden]
 format=(and %h more)
-text-color=#777777
+text-color=#2980b9
 
 [urgency=high]
-background-color=#c00000
-border-color=#ff0000
+background-color=#292b2e
+border-color=#eb4d4b

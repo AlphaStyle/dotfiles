@@ -1,0 +1,165 @@
+{
+  "layer": "top",
+  "position": "top",
+
+  "modules-left": [
+    "sway/workspaces",
+    "custom/right-arrow-dark",
+    "sway/mode"
+  ],
+  "modules-center": [
+    "custom/left-arrow-dark",
+    "clock#1",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "clock#2",
+    "custom/right-arrow-dark",
+    "custom/right-arrow-light",
+    "clock#3",
+    "custom/right-arrow-dark"
+  ],
+  "modules-right": [
+    "custom/left-arrow-dark",
+    "pulseaudio",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "memory",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "cpu",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "backlight",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "temperature",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "network",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "battery",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "tray",
+    "custom/left-arrow-light",
+    "custom/left-arrow-dark",
+    "custom/power"
+  ],
+
+  "custom/left-arrow-dark": {
+    "format": "{}",
+    "exec": "echo ",
+	"interval": "once",
+    "tooltip": false
+  },
+  "custom/left-arrow-light": {
+    "format": "{}",
+    "exec": " echo ",
+	"interval": "once",
+    "tooltip": false
+  },
+  "custom/right-arrow-dark": {
+    "format": "{}",
+    "exec": "echo ",
+	"interval": "once",
+    "tooltip": false
+  },
+  "custom/right-arrow-light": {
+    "format": "{}",
+    "exec": "echo ",
+	"interval": "once",
+    "tooltip": false
+  },
+
+  "sway/workspaces": {
+      "disable-scroll": true,
+      "all-outputs": true,
+      "format": "{name}: {icon}",
+      "format-icons": {
+          "1: Main": "",
+          "2: Web": "",
+          "3: Dev": "",
+          "4: Chat": "",
+          "5: Test": "",
+          "urgent": "",
+          "focused": "",
+          "default": ""
+      }
+  },
+
+  "clock#1": {
+    "format": "{:%a}",
+    "tooltip": false
+  },
+  "clock#2": {
+    "format": "{:%H:%M}",
+    "tooltip": false
+  },
+  "clock#3": {
+    "format": "{:%d-%m}",
+    "tooltip": false
+  },
+
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "{icon}  {volume}%",
+    "format-muted": "MUTE",
+    "format-icons": {
+      "headphones": "",
+      "default": [
+        "",
+        ""
+      ]
+    },
+    "scroll-step": 5,
+    "on-click": "pamixer -t",
+    "on-click-right": "pavucontrol"
+  },
+  "memory": {
+    "interval": 5,
+    "format": "Mem {}%"
+  },
+  "cpu": {
+    "interval": 5,
+    "format": "CPU {usage:2}%"
+  },
+  "backlight": {
+      "format": "{percent}% {icon}",
+      "format-icons": ["", ""]
+  },
+  "network": {
+      "format-wifi": "{essid} ({signalStrength}%) <span font='14'></span>",
+      "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+      "format-disconnected": "Disconnected ⚠"
+  },
+  "temperature": {
+      "critical-threshold": 80,
+      "format-critical": "{temperatureC}°C ",
+      "format": "{temperatureC}°C "
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "tray": {
+    "icon-size": 20,
+    "spacing": 5
+  }, 
+  "custom/power": { 
+      "format": "{}",
+      "exec":"echo ", 
+      "on-click": "swaynag -t warning -m 'Power Menu Options' -b 'Logout' 'swaymsg exit' -b 'Suspend' 'sudo zzz' -b 'Shutdown' 'sudo shutdown -h now' -b 'Reboot' 'sudo shutdown -r now'"
+  }
+}

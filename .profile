@@ -1,4 +1,4 @@
-export XDG_CONFIG_HOME=/home/alpha/.config
+export XDG_CONFIG_HOME=$HOME/.config
 export PANEL_FIFO=/tmp/panel-fifo
 export PANEL_HEIGHT=20
 # export PANEL_FONT="-*-tamsyn-medium-r-normal-*-12-*-*-*-*-*-*-1"
