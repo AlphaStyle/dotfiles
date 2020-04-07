@@ -5,19 +5,29 @@ xrdb ~/.Xresources &
 
 sxhkd &
 compton -b &
+$HOME/.config/polybar/launch.sh &
 dunst &
+nitrogen --restore &
 
 # bspc monitor -d I II III IV V VI VII VIII IX X
 # web='\uf0ac' # Globe
 # dev='\ue795' # Terminal
 
-term='\uf120' # Terminal-Light
-bspc monitor HDMI-1-1 -d ${term}
+# term='\uf120' # Terminal-Light
+# bspc monitor HDMI-1-1 -d ${term}
+# bspc monitor DP-1 -d ${term}
 
-main='\uf108' # Computer / Desktop screen
-web='\uf269' # Firefox
-dev='\uf126' # Code-Branch
-bspc monitor LVDS-1-1 -d ${main} ${web} ${dev}
+
+# main='\uf108' # Computer / Desktop screen
+# web='\uf269' # Firefox
+# dev='\uf126' # Code-Branch
+# bspc monitor DVI-1-1 -d ${main} ${web} ${dev}
+# bspc monitor DP-1 -d "code" "office"
+# bspc monitor DVI-1-1 -d "mail"
+# bspc monitor HDMI-1 -d "web" "graphics"
+bspc monitor DP-0 -d I II
+bspc monitor DVI-I-1 -d IV
+bspc monitor HDMI-0 -d III V
 
 bspc config border_width 0.5
 bspc config window_gap 5
@@ -34,4 +44,4 @@ bspc rule -a firefox focus=on border=off
 bspc rule -a alacritty floating=on border=off
 bspc rule -a feh floating=on center=true
 
-pgrep -x panel > /dev/null || panel &
+
