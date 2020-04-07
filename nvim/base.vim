@@ -41,6 +41,8 @@ set incsearch
 set smartcase
 set infercase
 set path+=**
+" Hightlight search and replace
+set inccommand=nosplit
 
 " Wildmenu 
 set wildmenu
