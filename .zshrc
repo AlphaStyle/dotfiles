@@ -20,7 +20,8 @@ export MAVENBIN=/usr/share/apache-maven/bin
 
 # Universal Node.js variable
 export npm_config_prefix=$HOME/.node_modules
-export NPMBIN=$HOME/.node_modules/bin
+# export NPMBIN=$HOME/.node_modules/bin
+export NPMBIN=$(yarn global bin)
 
 # fzf default command with ripgrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
@@ -44,7 +45,7 @@ export TERM='xterm-256color'
 
 # Path
 export PATH=$GOROOT:$GOPATH:$GOBIN:$GEMPATH:$GEM_HOME:$RUBYBIN:$PATH
-export PATH=$MAVENBIN:$LOCALBIN:$CARGOBIN.$NPMBIN:$PATH 
+export PATH=$MAVENBIN:$LOCALBIN:$CARGOBIN:$NPMBIN:$PATH 
 export PATH=$PATH
 
 # Aliases
@@ -80,6 +81,13 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 # Suggetions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Node Version Manager
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/tb/.sdkman"

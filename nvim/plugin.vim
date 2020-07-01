@@ -7,7 +7,7 @@ if has('vim_starting')
 endif
 let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
 call plug#begin(expand('~/.config/nvim/plugged'))
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'kkoomen/vim-doge' " Documentation
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -30,8 +30,8 @@ Plug 'tpope/vim-surround'
 Plug 'mileszs/ack.vim' " Ack Search with AG
 
 " FZF Fuzzy Finder
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 Plug 'terryma/vim-multiple-cursors' " Edit with multiple cursors
 Plug 'ervandew/supertab' " Tab AutoComplete etc with Tab button
@@ -47,8 +47,9 @@ Plug 'jackguo380/vim-lsp-cxx-highlight' " C-language sementic syntext highligh
 Plug 'w0rp/ale' " Linting
 
 " Snippets
-" Plug 'Shougo/neosnippet'
-" Plug 'SirVer/ultisnips'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips'
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'joshdick/onedark.vim' " Color theme

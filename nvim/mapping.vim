@@ -76,8 +76,10 @@ nnoremap <Leader>a :Ack!<Space>
 " FZF Fuzzyfinder 
 " nmap <leader>f :Find<CR>
 " nmap <leader><leader>f :Files<CR>
+nmap <leader>f :Files<CR>
 " nmap <leader>b :Buffers<Space>
 " nmap <leader><leader>b :Buffers<CR>
+nmap <leader>b :Buffers<CR>
 
 " Vmap for maintain Visual Mode after shifting > and < 
 vmap < <gv
