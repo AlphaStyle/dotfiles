@@ -1,4 +1,4 @@
-#!/bin/env sh
+#!/usr/bin/env bash
 
 export _JAVA_AWT_WM_NONREPARENTING=1
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
@@ -8,6 +8,22 @@ export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export MOZ_ENABLE_WAYLAND=1
 export MOZ_WEBRENDER=1
 export MOZ_ACCELERATED=0
+export MOZ_DBUS_REMOTE=1
+
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_DESKTOP=sway
+export XDG_SESSION_TYPE=wayland
+
+export LIBSEAT_BACKEND=logind
 
 # exec ck-launch-session dbus-launch --sh-syntax --exit-with-session sway
-sway
+# sway
+# exec dbus-run-session dbus-launch --sh-syntax --exit-with-session sway
+# exec dbus-run-session  sway
+
+if [[ "$DBUS_SESSION_BUS_ADDRESS" ]]; then
+    exec sway
+else
+    # exec dbus-launch --sh-syntax --exit-with-session sway 
+    exec dbus-run-session sway
+fi
