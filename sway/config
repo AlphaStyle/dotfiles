@@ -11,7 +11,8 @@ set $term alacritty
 # Your preferred application launcher
 # set $menu rofi -show drun -show-icons | xargs swaymsg exec
 # set $menu rofi -modi "run,drun,calc,ssh" -show drun -show-icons | xargs swaymsg exec
-set $menu wofi --show="drun,run" -I | xargs swaymsg exec
+# set $menu wofi --show="drun,run" -I | xargs swaymsg exec
+set $menu wofi -I -W1000 -H400 --show="drun" | xargs swaymsg exec
 
 ### Output configuration
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -19,8 +20,9 @@ set $menu wofi --show="drun,run" -I | xargs swaymsg exec
 exec swaybg -i ~/Wallpapers/wallhaven-land.jpg
 # Example configuration:
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
-output eDP-1 resolution 1920x1080 position 0,0
-output DP-1 resolution 3840x2160 position 1920,0
+output eDP-1 resolution 1920x1080@60Hz position 0,0
+output DP-1 resolution 1920x1080@60Hz position 1920,0
+# output DP-1 resolution 3840x2160 position 1920,0
    # output DP-1 resolution 1360x768@60Hz
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -44,9 +46,10 @@ input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
 }
 
 input * {
-    xkb_layout no,us
-    xkb_switch_layout us
-    xkb_options grp:alt_shift_toggle
+    xkb_layout no
+    #xkb_layout no,us
+    #xkb_switch_layout us
+    #xkb_options grp:alt_shift_toggle
     # xkb_layout "no,us"
     # xkb_switch_layout "us"
     # xkb_options "grp:win_space_toggle"
@@ -87,10 +90,10 @@ bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
 # or use $mod+[up|down|left|right]
-bindsym $mod+Left focus left
-
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+# bindsym $mod+Left focus left
+# bindsym $mod+Up focus up
+# bindsym $mod+Down focus down
+# bindsym $mod+Right focus right
 
 # _move_ the focused window with the same, but add Shift
 bindsym $mod+Shift+$left move left
@@ -98,10 +101,10 @@ bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 # ditto, with arrow keys
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# bindsym $mod+Shift+Left move left
+# bindsym $mod+Shift+Down move down
+# bindsym $mod+Shift+Up move up
+# bindsym $mod+Shift+Right move right
 
 set $bg '#282c34'
 set $fg '#abb2bf'
@@ -113,7 +116,6 @@ client.focused              $br         $bg         $fg     $ia         $br
 client.focused_inactive     $bg         $bg         $fg     $bg         $bg
 client.unfocused            $bg         $bg         $fg     $bg         $bg
 client.background           $bg
-
 
 set $ws1 '1: Main'
 set $ws2 '2: Web'
@@ -187,13 +189,13 @@ mode "resize" {
     bindsym $up resize shrink height 10px
     bindsym $right resize grow width 10px
 
-# ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+    # ditto, with arrow keys
+    # bindsym Left resize shrink width 10px
+    # bindsym Down resize grow height 10px
+    # bindsym Up resize shrink height 10px
+    # bindsym Right resize grow width 10px
 
-# return to default mode
+    # return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -213,14 +215,14 @@ bar {
     position top
     swaybar_command waybar
 
-# When the status_command prints a new line to stdout, swaybar updates.
-# The default just shows the current date and time.
-# status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-# colors {
-#    statusline #ffffff
-#    background #323232
-#    inactive_workspace #32323200 #32323200 #5c5c5c
-# }
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+    # colors {
+    #    statusline #ffffff
+    #    background #323232
+    #    inactive_workspace #32323200 #32323200 #5c5c5c
+    # }
 }
 
 default_border pixel 1
@@ -240,4 +242,4 @@ include /etc/sway/config.d/*
 
 exec xrdb -load ~/.Xresources
 exec mako
-exec safeeyes
+# exec safeeyes
