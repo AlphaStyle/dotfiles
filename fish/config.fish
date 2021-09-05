@@ -1,6 +1,8 @@
 # Golang Variables
 set -x GOPATH ~/go
+set -x GOBIN $GOPATH/bin
 set -x GOROOT /usr/lib/go
+set -x GO11MODULE auto
 set -Ux GEM_HOME ~/.gem
 # Ruby Variables
 set -x RubyBin (ruby -e 'print Gem.user_dir')/bin
@@ -19,6 +21,9 @@ set -x NPMBIN ~/.node_modules/bin
 # fzf default command with ripgrep
 set -Ux FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
+# fix rendering for java applications on sway
+set -x _JAVA_AWT_WM_NONREPARENTING 1
+
 # set -Ux QT_QPA_PLATFORM wayland
 # set -Ux QT_QPA_PLATFORMTHEME qt5ct
 # set -gx QT_WAYLAND_DISABLE_WINDOWDECORATION '1'
@@ -33,7 +38,7 @@ set -gx TERM 'xterm-256color'
 
 # Path
 set -x PATH $GOROOT $GOPATH $GOPATH/bin $GemPath $GEM_HOME $RubyBin $PATH
-set -x PATH $MAVENBIN $LOCALBIN $CARGOBIN $NPMBIN $PATH
+set -x PATH $MAVENBIN $LOCALBIN $CARGOBIN $NPMBIN $GOBIN $PATH 
 set -x PATH $PATH
 
 # Aliases
