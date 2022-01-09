@@ -23,12 +23,14 @@ return require('packer').startup(function()
   -- Collection of snippets
   use 'rafamadriz/friendly-snippets'
   -- Automatically install Language prosocol servers
-  use 'kabouzeid/nvim-lspinstall'
+  -- use 'kabouzeid/nvim-lspinstall'
+  use 'williamboman/nvim-lsp-installer'
 
   -- Builtin-LSP
   use {
     'neovim/nvim-lspconfig',
-    requires = {{'hrsh7th/vim-vsnip'}, {'kabouzeid/nvim-lspinstall'}},
+    -- requires = {{'hrsh7th/vim-vsnip'}, {'kabouzeid/nvim-lspinstall'}},
+    requires = {{'hrsh7th/vim-vsnip'}, {'williamboman/nvim-lsp-installer'}},
     config = function()
       local nvim_lsp = require('lspconfig')
 
@@ -75,22 +77,65 @@ return require('packer').startup(function()
         }
       }
 
-      require('lspinstall').setup() -- important
-      local servers = require('lspinstall').installed_servers()
+      local lsp_installer = require("nvim-lsp-installer")
 
-      -- Use a loop to conveniently call 'setup' on multiple servers and
-      -- map buffer local keybindings when the language server attaches
-      -- local servers = { "pylsp", "rust_analyzer", "tsserver", "gopls", "svelte", "yamlls", "jdtls", "vuels", "html", "cssls", "ccls", "clangd" }
-      -- local servers = { "pyright", "rust_analyzer", "tsserver" }
-      for _, lsp in ipairs(servers) do
-        nvim_lsp[lsp].setup({
+      local servers = { 
+        "pylsp", 
+        "rust_analyzer", 
+        "tsserver", 
+        "gopls", 
+        "svelte", 
+        "yamlls", 
+        "jdtls", 
+        "vuels", 
+        "html", 
+        "cssls", 
+        "ccls", 
+        "clangd" 
+      }
+
+      for _, name in pairs(servers) do
+        local server_is_found, server = lsp_installer.get_server(name)
+        if server_is_found then
+          if not server:is_installed() then
+            print("Installing " .. name)
+            server:install()
+          end
+        end
+      end
+
+      -- Register a handler that will be called for all installed servers.
+      -- Alternatively, you may also register handlers on specific server instances instead (see example below).
+      lsp_installer.on_server_ready(function(server)
+        local opts = {
           on_attach = on_attach,
           capabilities = capabilities,
           flags = {
             debounce_text_changes = 150,
           }
-        })
-      end
+        }
+
+        -- This setup() function is exactly the same as lspconfig's setup function.
+        -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+        server:setup(opts)
+      end)
+
+      -- require('lspinstall').setup() -- important
+      -- local servers = require('lspinstall').installed_servers()
+
+      -- Use a loop to conveniently call 'setup' on multiple servers and
+      -- map buffer local keybindings when the language server attaches
+      -- local servers = { "pylsp", "rust_analyzer", "tsserver", "gopls", "svelte", "yamlls", "jdtls", "vuels", "html", "cssls", "ccls", "clangd" }
+      -- local servers = { "pyright", "rust_analyzer", "tsserver" }
+      --[[ for _, lsp in ipairs(servers) do
+nvim_lsp[lsp].setup({
+on_attach = on_attach,
+capabilities = capabilities,
+flags = {
+debounce_text_changes = 150,
+}
+})
+end ]]
 
       function goimports(timeout_ms)
         local context = { source = { organizeImports = true } }
@@ -242,7 +287,7 @@ return require('packer').startup(function()
 'iamcco/markdown-preview.nvim', 
 run = 'cd app && npm install',
 cmd = 'MarkdownPreview'
-  } ]]
+} ]]
 
   use 'editorconfig/editorconfig-vim' -- Editorconfig
   use 'lukas-reineke/indent-blankline.nvim' -- Show Indents
