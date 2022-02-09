@@ -53,7 +53,7 @@ map('n', 'XX', '"+x<CR>', { noremap = true, silent = false })
 -- Clear search highlight
 map('n', '<Leader><Space>', ':noh<CR>', { noremap = true, silent = true })
 
--- Indenting in visual / select mdoe
+-- Indenting in visual / select mode
 map('v', '<', '<gv', { noremap = true, silent = false })
 map('v', '>', '>gv', { noremap = true, silent = false })
 
@@ -61,16 +61,16 @@ map('v', '>', '>gv', { noremap = true, silent = false })
 map('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true, silent = false })
 map('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true, silent = false })
 
--- Vim compe (Autocompletion with builtin LSP)
+--[[ -- Vim compe (Autocompletion with builtin LSP)
 map('i', '<C-Space>', "compe#complete()", { noremap = true, silent = true, expr = true })
 -- map('i', '<CR>', "compe#confirm('<CR>')", { noremap = true, silent = true, expr = true })
 map('i', '<CR>', 'compe#confirm(\'luaeval("require \'nvim-autopairs\'.autopairs_cr()")\')', { noremap = true, silent = true, expr = true })
                -- compe#confirm(luaeval("require 'nvim-autopairs'.autopairs_cr()"))
 map('i', '<C-e>', "compe#close('<C-e>')", { noremap = true, silent = true, expr = true })
 map('i', '<C-f>', "compe#scroll({ 'delta': +4 })", { noremap = true, silent = true, expr = true })
-map('i', '<C-d>', "compe#scroll({ 'delta': -4 })", { noremap = true, silent = true, expr = true })
+map('i', '<C-d>', "compe#scroll({ 'delta': -4 })", { noremap = true, silent = true, expr = true }) ]]
 
-local t = function(str)
+--[[ local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
@@ -81,12 +81,12 @@ local check_back_space = function()
     else
         return false
     end
-end
+end ]]
 
 -- Use (s-)tab to:
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
+--[[ _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
   elseif check_back_space() then
@@ -101,12 +101,12 @@ _G.s_tab_complete = function()
   else
     return t "<S-Tab>"
   end
-end
+end ]]
 
-map("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+--[[ map("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 map("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 map("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true}) ]]
 
 -- Telescope fuzzy finder
 map('n', '<Leader>ff', ":lua require('telescope.builtin').find_files()<CR>", { noremap = true, silent = false })

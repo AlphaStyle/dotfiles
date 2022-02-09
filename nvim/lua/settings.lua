@@ -21,7 +21,7 @@ cmd('cnoreabbrev Q q')
 cmd('cnoreabbrev Qall qall')
 
 -- Global variables
-cmd('colorscheme onedark')
+-- cmd('colorscheme onedark')
 cmd('syntax on')
 cmd('set clipboard^=unnamedplus')
 

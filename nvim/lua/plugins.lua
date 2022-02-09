@@ -14,7 +14,7 @@ end
 -- Only required if you have packer configured as `opt`
 cmd('packadd packer.nvim')
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -23,7 +23,7 @@ return require('packer').startup(function()
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
 
   -- Snippets
-  use 'hrsh7th/vim-vsnip' 
+  use 'hrsh7th/vim-vsnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
   -- Collection of snippets
@@ -34,17 +34,16 @@ return require('packer').startup(function()
   -- Builtin-LSP
   use {
     'neovim/nvim-lspconfig',
-    -- requires = {{'hrsh7th/vim-vsnip'}, {'kabouzeid/nvim-lspinstall'}},
     requires = {
-      {'hrsh7th/vim-vsnip'}, 
-      {'hrsh7th/nvim-cmp'}, 
-      {'hrsh7th/cmp-nvim-lsp'}, 
-      {'saadparwaiz1/cmp_luasnip'}, 
-      {'L3MON4D3/LuaSnip'}, 
+      {'hrsh7th/vim-vsnip'},
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'L3MON4D3/LuaSnip'},
       {'williamboman/nvim-lsp-installer'}
     },
     config = function()
-      local nvim_lsp = require('lspconfig')
+      -- local nvim_lsp = require('lspconfig')
       local opts = { noremap=true, silent=true }
 
       vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
@@ -88,20 +87,27 @@ return require('packer').startup(function()
       capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
       local lsp_installer = require("nvim-lsp-installer")
-
-      local servers = { 
-        "pylsp", 
-        "rust_analyzer", 
-        "tsserver", 
-        "gopls", 
-        "svelte", 
-        "yamlls", 
-        "jdtls", 
-        "vuels", 
-        "html", 
-        "cssls", 
-        "ccls", 
-        "clangd" 
+      local servers = {
+        "pylsp",
+        "rust_analyzer",
+        "tsserver",
+        "gopls",
+        "svelte",
+        "yamlls",
+        "jdtls",
+        "vuels",
+        "html",
+        "cssls",
+        "ccls",
+        "sumneko_lua",
+        "yamlls",
+        "taplo",
+        "sqlls",
+        "puppet",
+        "spectral",
+        "dockerls",
+        "bashls",
+        "clangd"
       }
 
       -- Loop through the servers listed above and set them up. If a server is
@@ -129,44 +135,19 @@ return require('packer').startup(function()
         end
       end
 
-
-
-      -- Register a handler that will be called for all installed servers.
-      -- Alternatively, you may also register handlers on specific server instances instead (see example below).
-      --[[ lsp_installer.on_server_ready(function(server)
-        local opts = {
-          on_attach = on_attach,
-          capabilities = capabilities,
-          flags = {
-            debounce_text_changes = 150,
-          }
-        }
-
-        -- This setup() function is exactly the same as lspconfig's setup function.
-        -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-        server:setup(opts)
-      end) ]]
-
---[[ for _, name in pairs(servers) do
-local server_is_found, server = lsp_installer.get_server(name)
-if server_is_found then
-if not server:is_installed() then
-print("Installing " .. name)
-server:install()
-end
-end
-end ]]
-
-
       -- luasnip setup
       local luasnip = require 'luasnip'
 
       -- nvim-cmp setup
       local cmp = require 'cmp'
       cmp.setup {
+        completion = {
+          autocomplete = true,
+        },
         snippet = {
           expand = function(args)
             require('luasnip').lsp_expand(args.body)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
           end,
         },
         mapping = {
@@ -202,6 +183,10 @@ end ]]
         sources = {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
+          { name = 'vsnip' },
+          { name = 'buffer' },
+          { name = 'path' },
+          { name = 'cmdline' }
         },
       }
 
@@ -237,69 +222,22 @@ end ]]
 
       vim.cmd('autocmd BufWritePre *.go lua goimports(1000)')
     end
-  } 
-
-  -- AutoComplete
-  --[[ use {
-    'hrsh7th/nvim-compe',
-    requires = 'neovim/nvim-lspconfig',
-    config = function()
-      require('compe').setup({
-        enabled = true;
-        autocomplete = true;
-        debug = false;
-        min_length = 1;
-        preselect = 'enable';
-        throttle_time = 80;
-        source_timeout = 200;
-        resolve_timeout = 800;
-        incomplete_delay = 400;
-        max_abbr_width = 100;
-        max_kind_width = 100;
-        max_menu_width = 100;
-        documentation = {
-          border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
-          winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-          max_width = 120,
-          min_width = 60,
-          max_height = math.floor(vim.o.lines * 0.3),
-          min_height = 1,
-        };
-
-        source = {
-          path = true;
-          buffer = true;
-          calc = true;
-          nvim_lsp = true;
-          nvim_lua = true;
-          vsnip = true;
-          ultisnips = true;
-          luasnip = true;
-        };
-      })
-    end
-  }  ]]
+  }
 
   use 'p00f/nvim-ts-rainbow' -- Rainbow colored {[()]}
 
   -- Autopair
-  use { 
+  use {
     'windwp/nvim-autopairs',
 
     requires = { {'hrsh7th/nvim-cmp'}},
-    config = function() 
+    config = function()
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       local cmp = require('cmp')
       cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
-
       -- add a lisp filetype (wrap my-function), FYI: Hardcoded = { "clojure", "clojurescript", "fennel", "janet" }
       cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
-
-      --[[ require("nvim-autopairs.completion.cmp").setup({
-        map_cr = true, --  map <CR> on insert mode
-        map_complete = true -- it will auto insert `(` after select function or method item
-      }) ]]
 
       local npairs = require("nvim-autopairs")
 
@@ -324,8 +262,8 @@ end ]]
   }
 
   -- Syntax
-  use { 
-    'nvim-treesitter/nvim-treesitter', 
+  use {
+    'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     requires = {{'p00f/nvim-ts-rainbow'}, {'windwp/nvim-autopairs'}},
     config = function()
@@ -360,12 +298,6 @@ end ]]
     end
   }
 
---[[ use {
-'iamcco/markdown-preview.nvim', 
-run = 'cd app && npm install',
-cmd = 'MarkdownPreview'
-} ]]
-
   use 'editorconfig/editorconfig-vim' -- Editorconfig
   use 'lukas-reineke/indent-blankline.nvim' -- Show Indents
   use 'vim-pandoc/vim-pandoc' -- Markdown
@@ -393,10 +325,10 @@ cmd = 'MarkdownPreview'
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
     config = function()
       require('lualine').setup({
-        options = { 
-          theme = 'onedark', 
-          section_separators = '', 
-          component_separators = '' 
+        options = {
+          theme = 'onedark',
+          section_separators = '',
+          component_separators = ''
         }
       })
     end
@@ -404,13 +336,13 @@ cmd = 'MarkdownPreview'
 
   use {
     'blackCauldron7/surround.nvim',
-    config = function() 
+    config = function()
       require('surround').setup({ })
     end
   }
 
-  use 'nvim-lua/plenary.nvim' 
-  use 'nvim-lua/popup.nvim' 
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-lua/popup.nvim'
 
   -- Highlight TODO HACK FIX (FIXME) BUG, ect
   use {
@@ -426,9 +358,9 @@ cmd = 'MarkdownPreview'
   }
 
   use {
-    'lewis6991/gitsigns.nvim', 
-    requires = { 
-      'nvim-lua/plenary.nvim' 
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
     },
     config = function() require('gitsigns').setup() end
   }
