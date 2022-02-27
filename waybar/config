@@ -1,94 +1,93 @@
-
 {
-    "layer": "top", 
-    "position": "top", 
-    "height": 25, 
-    "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray", "custom/power"],
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "disable-markup" : false,
-        "all-outputs": true,
-        "format": "<span font='14'>{icon}</span>",
-        "format-icons": {
-            "1: Main": "",
-            "2: Web": "",
-            "3: Dev": "",
-            "4: Chat": "",
-            "5: Test": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        }
-    },
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
-    "idle_inhibitor": {
-        "format": "<span font='15'>{icon}</span>",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
-    },
-    "tray": {
-        "icon-size": 21,
-        "spacing": 10
-    },
-    "clock": {
-        "tooltip-format": "{:%Y-%m-%d | %H:%M}",
-        "format-alt": "{:%Y-%m-%d}"
-    },
-    "cpu": {
-        "format": "{usage}% "
-    },
-    "memory": {
-        "format": "{}% "
-    },
-    "temperature": {
-        "critical-threshold": 80,
-        "format-critical": "{temperatureC}°C ",
-        "format": "{temperatureC}°C "
-    },
-    "backlight": {
-        "format": "{percent}% {icon}",
-        "states": [0,50],
-        "format-icons": ["", ""]
-    },
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{capacity}% <span font='11'>{icon}</span>",
-        "format-icons": ["", "", "", "", ""]
-    },
-    "network": {
-        "format-wifi": "{essid} ({signalStrength}%) <span font='12'></span>",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-disconnected": "Disconnected ⚠",
-        "interval" : 7
-    },
-    "pulseaudio": {
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon}",
-        "format-muted": "<span font='15'></span>",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", ""]
-        },
-        "on-click": "pavucontrol"
-    },
-    "custom/power": { 
-        "format": "{}",
-        "exec":"echo ", 
-        "on-click": "swaynag -t info -m 'Power Menu Options' -b 'Logout' 'swaymsg exit' -b 'Suspend' 'sudo zzz' -b 'Shutdown' 'sudo shutdown -h now' -b 'Reboot' 'sudo shutdown -r now'"
+  "layer": "top", 
+  "position": "top", 
+  "height": 25, 
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["sway/window"],
+  "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray", "custom/power"],
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "disable-markup" : false,
+    "all-outputs": true,
+    "format": "<span font='14'>{icon}</span>",
+    "format-icons": {
+      "1: Main": "",
+      "2: Web": "",
+      "3: Dev": "",
+      "4: Chat": "",
+      "5: Test": "",
+      "urgent": "",
+      "focused": "",
+      "default": ""
     }
+  },
+  "sway/mode": {
+    "format": "<span style='italic'>{}</span>"
+  },
+  "idle_inhibitor": {
+    "format": "<span font='15'>{icon}</span>",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  },
+  "clock": {
+    "tooltip-format": "{:%Y-%m-%d | %H:%M}",
+    "format-alt": "{:%Y-%m-%d}"
+  },
+  "cpu": {
+    "format": "{usage}% "
+  },
+  "memory": {
+    "format": "{}% "
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C ",
+    "format": "{temperatureC}°C "
+  },
+  "backlight": {
+    "format": "{percent}% {icon}",
+    "states": [0,50],
+    "format-icons": ["", ""]
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{capacity}% <span font='11'>{icon}</span>",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "network": {
+    "format-wifi": "{essid} ({signalStrength}%) <span font='12'></span>",
+    "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+    "format-disconnected": "Disconnected ⚠",
+    "interval" : 7
+  },
+  "pulseaudio": {
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "<span font='15'></span>",
+    "format-icons": {
+      "headphones": "",
+      "handsfree": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+  "custom/power": { 
+    "format": "{}",
+    "exec":"echo ", 
+    "on-click": "swaynag -t info -m 'Power Menu Options' -b 'Logout' 'swaymsg exit' -b 'Suspend' 'sudo zzz' -b 'Shutdown' 'sudo shutdown -h now' -b 'Reboot' 'sudo shutdown -r now'"
+  }
 }
