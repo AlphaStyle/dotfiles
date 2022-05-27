@@ -1,4 +1,4 @@
--- helpers -- 
+-- helpers --
 local nexec = vim.api.nvim_exec
 
 --Remap escape to leave terminal mode
@@ -17,17 +17,24 @@ augroup Packer
 augroup end
 ]], false)
 
--- The PC is fast enough, do syntax highlight syncing from start 
 nexec([[
-augroup vimrc-sync-fromstart
+augroup Packer_user_config
+  autocmd!
+  autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+augroup end
+]], false)
+
+-- The PC is fast enough, do syntax highlight syncing from start
+nexec([[
+augroup Vimrc-sync-fromstart
   autocmd!
   autocmd BufEnter * :syntax sync fromstart
 augroup end
   ]], false)
 
--- Remember cursor position 
+-- Remember cursor position
 nexec([[
-augroup vimrc-remember-cursor-position
+augroup Vimrc-remember-cursor-position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup end
