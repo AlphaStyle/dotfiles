@@ -42,7 +42,8 @@ export EDITOR=nvim
 #export PAGER=most
 export PAGER=less # Bat is not compatable with most :(
 # export TERM="tmux256color"
-export TERM='xterm-256color'
+# export TERM='xterm-256color'
+export TERM='screen-256color'
 
 export NNN_PLUG='d:diffs;v:imgview;p:preview-tui;n:nuke'
 
@@ -91,7 +92,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # pipx completions
-eval "$(register-python-argcomplete pipx)"
+# eval "$(register-python-argcomplete pipx)"
 
 # Node Version Manager
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
@@ -101,5 +102,5 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/tb/.sdkman"
-[[ -s "/home/tb/.sdkman/bin/sdkman-init.sh" ]] && source "/home/tb/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

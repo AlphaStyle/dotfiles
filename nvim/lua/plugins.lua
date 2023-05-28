@@ -1,250 +1,232 @@
 -- Helpers --
+local execute = vim.api.nvim_command
 local fn = vim.fn
+local cmd = vim.cmd
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+-- Ensure that packer is installed
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+
 if fn.empty(fn.glob(install_path)) > 0 then
-  Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path })
+  execute 'packadd packer.nvim'
 end
 
 -- Only required if you have packer configured as `opt`
--- cmd('packadd packer.nvim')
+cmd('packadd packer.nvim')
 
 return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  -- Autocompletion
-  --[[ use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
+  use "neovim/nvim-lspconfig"
 
-  -- Autocompletion extra
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/cmp-git'
-
-  -- Snippets
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
-  use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
- ]]
-  -- Collection of snippets
-  -- use 'rafamadriz/friendly-snippets'
-  -- Automatically install Language prosocol servers
-  -- use 'williamboman/nvim-lsp-installer'
-
-  -- Builtin-LSP
+  -- LSP installer
   use {
-    'neovim/nvim-lspconfig',
-    requires = {
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-buffer'},
-      {'hrsh7th/cmp-path'},
-      {'hrsh7th/cmp-cmdline'},
-      {'hrsh7th/cmp-git'},
-      {'hrsh7th/nvim-cmp'},
-
-      {'hrsh7th/cmp-vsnip'},
-      {'hrsh7th/vim-vsnip'},
-      {'SirVer/ultisnips'},
-      {'quangnguyen30192/cmp-nvim-ultisnips'},
-
-      {'L3MON4D3/LuaSnip'},
-      {'saadparwaiz1/cmp_luasnip'},
-      {'williamboman/nvim-lsp-installer'}
-    },
-    config = function()
-      local opts = { noremap=true, silent=true }
-
-      vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-      vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-      vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-      vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-
-      -- Use an on_attach function to only map the following keys
-      -- after the language server attaches to the current buffer
-      local on_attach = function(client, bufnr)
-        -- Enable completion triggered by <c-x><c-o>
-        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-        -- Mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-      end
-
-      local servers = {
-        "pylsp",
-        "rust_analyzer",
-        "tsserver",
-        "gopls",
-        "svelte",
-        "yamlls",
-        "jdtls",
-        "vuels",
-        "html",
-        "cssls",
-        "ccls",
-        "sumneko_lua",
-        "yamlls",
-        "taplo",
-        "sqlls",
-        "puppet",
-        "spectral",
-        "dockerls",
-        "bashls",
-        "bicep",
-        "clangd"
-      }
-
-      require("nvim-lsp-installer").setup({
-        automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
-      })
-
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-          'documentation',
-          'detail',
-          'additionalTextEdits',
-        }
-      }
-
-      capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
-      for _, lsp in pairs(servers) do
-        require('lspconfig')[lsp].setup {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          flags = {
-            -- This will be the default in neovim 0.7+
-            debounce_text_changes = 150,
-          }
-        }
-      end
-
-      -- luasnip setup
-      local luasnip = require 'luasnip'
-
-      -- nvim-cmp setup
-      local cmp = require 'cmp'
-      cmp.setup ({
-        completion = {
-          autocomplete = true,
-        },
-        snippet = {
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.close(),
-          ['<CR>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-          },
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-        }),
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-          { name = 'vsnip' },
-          { name = 'ultisnips' },
-        }, {
-            { name = 'buffer' },
-            { name = 'path' },
-            { name = 'cmdline' }
-          })
-      })
-
-      -- Set configuration for specific filetype.
-      cmp.setup.filetype('gitcommit', {
-        sources = cmp.config.sources({
-          { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-        }, {
-            { name = 'buffer' },
-          })
-      })
-
-      -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline('/', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' }
-        }
-      })
-
-      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-            { name = 'cmdline' }
-          })
-      })
-    end
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
   }
 
-  -- use 'p00f/nvim-ts-rainbow' -- Rainbow colored {[()]}
+  -- Auto completion
+  use {
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/nvim-cmp',
+  }
+
+  -- For vsnip
+  use {
+    'hrsh7th/cmp-vsnip',
+    'hrsh7th/vim-vsnip',
+  }
+
+  -- For luasnip users.
+  use {
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
+  }
+
+  -- For ultisnips users.
+  use {
+    'SirVer/ultisnips',
+    'quangnguyen30192/cmp-nvim-ultisnips',
+  }
+
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<Tab>'] = function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          fallback()
+        end
+      end,
+      ['<S-Tab>'] = function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end,
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      { name = 'luasnip' }, -- For luasnip users.
+      { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+        { name = 'buffer' },
+      })
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+        { name = 'buffer' },
+      })
+  })
+
+  -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+      })
+  })
+
+  -- lua_ls",
+  local servers = {
+    "pylsp",
+    "rust_analyzer",
+    "tsserver",
+    "gopls",
+    "svelte",
+    "yamlls",
+    "jdtls",
+    "vuels",
+    "html",
+    "cssls",
+    "jsonls",
+    "marksman",
+    "terraformls",
+    "yamlls",
+    "taplo",
+    "sqlls",
+    "puppet",
+    "spectral",
+    "dockerls",
+    "bashls",
+    "clangd"
+  }
+
+  require("mason").setup()
+  require("mason-lspconfig").setup {
+    ensure_installed = servers,
+    automatic_installation = true,
+  }
+
+  for _, lsp in pairs(servers) do
+    require('lspconfig')[lsp].setup {}
+  end
+
+  -- Global mappings.
+  -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+  vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+  vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+  -- Use LspAttach autocommand to only map the following keys
+  -- after the language server attaches to the current buffer
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    callback = function(ev)
+      -- Enable completion triggered by <c-x><c-o>
+      vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+      -- Buffer local mappings.
+      -- See `:help vim.lsp.*` for documentation on any of the below functions
+      local opts = { buffer = ev.buf }
+      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+      vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+      vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+      vim.keymap.set('n', '<space>wl', function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end, opts)
+      vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+      vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+      vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+      vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+      vim.keymap.set('n', '<space>f', function()
+        vim.lsp.buf.format { async = true }
+      end, opts)
+    end,
+  })
 
   -- Autopair
   use {
     'windwp/nvim-autopairs',
 
-    -- requires = {{'hrsh7th/nvim-cmp'}},
+    requires = { { 'hrsh7th/nvim-cmp' } },
     config = function()
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       local cmp = require('cmp')
-      cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
 
       -- add a lisp filetype (wrap my-function), FYI: Hardcoded = { "clojure", "clojurescript", "fennel", "janet" }
-      cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
+      -- cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
 
       local npairs = require("nvim-autopairs")
 
       npairs.setup({
         check_ts = true,
         ts_config = {
-          lua = {'string'},-- it will not add pair on that treesitter node
-          javascript = {'template_string'},
-          java = false,-- don't check treesitter on java
-        }
+          lua = { 'string' }, -- it will not add pair on that treesitter node
+          javascript = { 'template_string' },
+          java = false, -- don't check treesitter on java
+        },
       })
 
       local ts_conds = require('nvim-autopairs.ts-conds')
@@ -252,18 +234,19 @@ return require('packer').startup(function(use)
 
       -- press % => %% is only inside comment or string
       npairs.add_rules({
-        Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({'string','comment'})),
-        Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({'function'}))
+        Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({ 'string', 'comment' })),
+        Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ 'function' }))
       })
     end
   }
+
+  use 'HiPhish/nvim-ts-rainbow2'
 
   -- Syntax
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
-    -- requires = {{'p00f/nvim-ts-rainbow'}, {'windwp/nvim-autopairs'}},
-    requires = {{'p00f/nvim-ts-rainbow'}},
+    requires = { { 'windwp/nvim-autopairs' } },
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = "all",
@@ -286,8 +269,12 @@ return require('packer').startup(function(use)
         },
         rainbow = {
           enable = true,
-          extended_mode = true,
-          max_file_lines = 1000,
+          -- list of languages you want to disable the plugin for
+          -- disable = { 'jsx', 'cpp' },
+          -- Which query to use for finding delimiters
+          query = 'rainbow-parens',
+          -- Highlight the entire buffer all at once
+          strategy = require('ts-rainbow').strategy.global,
         },
         autopairs = {
           enable = true
@@ -307,16 +294,21 @@ return require('packer').startup(function(use)
     'navarasu/onedark.nvim',
     config = function() require('onedark').load() end
   }
+
   use 'b3nj5m1n/kommentary' --  Comment in / out stuff
 
-  -- use 'kyazdani42/nvim-web-devicons' -- Icons
+  use 'kyazdani42/nvim-web-devicons' -- Icons
+
+  -- Issues in Quickfix
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function() require("trouble").setup() end
+  }
 
   use {
-    'nvim-lualine/lualine.nvim',
-    requires = {
-      {'kyazdani42/nvim-web-devicons', opt = true},
-      {'navarasu/onedark.nvim'},
-    },
+    'hoob3rt/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require('lualine').setup({
         options = {
@@ -328,21 +320,17 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- Issues in Quickfix
-  use {
-    "folke/trouble.nvim",
-    -- requires = "kyazdani42/nvim-web-devicons",
-    config = function() require("trouble").setup() end
-  }
-
-  use {
-    'ur4ltz/surround.nvim',
+  use({
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
     config = function()
-      require('surround').setup({ })
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
     end
-  }
+  })
 
-  -- use 'nvim-lua/plenary.nvim'
+  use 'nvim-lua/plenary.nvim'
   use 'nvim-lua/popup.nvim'
 
   -- Highlight TODO HACK FIX (FIXME) BUG, ect
@@ -352,24 +340,13 @@ return require('packer').startup(function(use)
     config = function() require("todo-comments").setup() end
   }
 
-
   use {
     'nvim-telescope/telescope.nvim',
-    -- requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+    requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } }
   }
 
   use {
     'lewis6991/gitsigns.nvim',
-    --[[ requires = {
-      'nvim-lua/plenary.nvim'
-    }, ]]
     config = function() require('gitsigns').setup() end
   }
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if Packer_bootstrap then
-    require('packer').sync()
-  end
 end)
-
