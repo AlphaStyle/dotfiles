@@ -1,0 +1,13 @@
+
+[rebase]
+	autoSquash = true
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[merge]
+  tool = nvim
+[mergetool]
+  keepBackup = false
+[mergetool "nvim"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
